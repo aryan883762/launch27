@@ -1,0 +1,7 @@
+<div class="textfield-wrapper">
+    <input :style="itemStyles" v-model="form[item.formId]" @change="onFieldChange" @focus="onTextFieldFocus" @blur="onFieldBlur" @input="onFieldChangeLive" class="form-component-textfield" :type="finalFieldType" :placeholder="itemAttributes.placeholder" :autocomplete.native="autocompleteValue" />
+    <template v-if="hasPicker">
+        <el-date-picker v-if="fieldType == 'date'" ref="picker" v-model="form[item.formId]" @change="onPickerChange" @blur="onFieldBlur" type="date" value-format="yyyy-MM-dd" />
+        <el-time-picker v-if="fieldType == 'time'" ref="picker" v-model="form[item.formId]" @change="onPickerChange" @blur="onFieldBlur" arrow-control :picker-options="{format: 'hh:mm A'}" value-format="hh:mm A" />
+    </template>
+</div>

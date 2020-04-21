@@ -1,0 +1,3 @@
+<div class="inline-date-picker">
+    <v-day-selector :disabled-dates="{to: $$moment().subtract(1, 'day').format('YYYY-MM-DD')}" :single-month="true" v-model="form[item.formId]" @input="onDatePickerChange" />
+</div>

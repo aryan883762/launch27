@@ -1,0 +1,35 @@
+.report-section{
+
+  .chart-upper-section{
+    margin-bottom: 15px;
+  }
+
+  .report-table{
+    .el-table{
+      margin-bottom: 10px;
+    }
+    .el-table__header-wrapper{
+      display: none;
+    }
+  }
+
+  .center-content{
+    text-align: center;
+    h4{
+      margin: 5px 0;
+    }
+
+    .right-side{
+      border-right: 1px solid #F3F5FA;
+      p,h4{
+        margin: 4px 0;
+      }
+    }
+    .left-side{
+      p,h4{
+        margin: 4px 0;
+      }
+    }
+  }
+
+}

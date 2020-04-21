@@ -1,0 +1,84 @@
+<div class="component-content-sidebar">
+    <el-collapse v-model="activeSection" accordion>
+        <el-collapse-item title="General" name="general">
+            <el-form>
+                <el-form-item v-if="checkHasAttributes(['text'])" label="Text">
+                    <el-input type="textarea" v-model="attributes.text"></el-input>
+                </el-form-item>
+                <el-form-item v-if="checkHasAttributes(['placeholder'])" label="Placeholder">
+                    <el-input v-model="attributes.placeholder"></el-input>
+                </el-form-item>
+                <el-form-item v-if="checkHasAttributes(['label'])" label="Label">
+                    <el-input v-model="attributes.label"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-checkbox v-model="attributes.hidden" :disabled="!isHidable">Hidden</el-checkbox>
+                    <template v-if="isCustomFormComponent && isInputField">
+                        <el-checkbox v-model="attributes.required">Required</el-checkbox>
+                    </template>
+                </el-form-item>
+            </el-form>
+        </el-collapse-item>
+        <el-collapse-item v-if="checkHasAttributes(['options'])" title="Select Options" name="select-options">
+            <div v-if="attributes.options.length" class="select-options-wrapper row-form-wrapper">
+                <draggable v-model="attributes.options" v-bind="{}" handle=".action-button.move">
+                    <el-row class="row-form-item" :gutter="10" v-for="(option, optionIndex) in attributes.options" :key="optionIndex">
+                        <el-col :span="12"><el-input v-model="option.label" placeholder="Label" /></el-col>
+                        <el-col :span="6"><el-input v-model="option.value" placeholder="Value" /></el-col>
+                        <el-col :span="6">
+                            <div class="action-buttons">
+                                <div class="action-button delete" @click="deleteSelectOptionByIndex(optionIndex)"><font-awesome-icon icon="trash-alt" /></button></div>
+                                <div class="action-button move"><font-awesome-icon icon="bars" /></button></div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </draggable>
+            </div>
+            <el-alert v-else type="info" :closable="false" class="no-result-wrapper">
+                <em>You have not added any options yet</em>
+            </el-alert>
+            <el-button size="mini" type="success" @click="addSelectOption"><font-awesome-icon icon="plus-circle" /> Add option</el-button>
+        </el-collapse-item>
+        <el-collapse-item v-if="isConditionalLogicAllowed" title="Conditional Logic" name="conditional-logic">
+            <div class="conditional-logic-wrapper" :class="{disabled: !attributes.conditionalLogic}">
+                <el-checkbox class="conditional-logic-state-checkbox" v-model="attributes.conditionalLogic" @change="toggleConditionalLogicState">Enable conditional logic</el-checkbox>
+                <el-radio-group v-model="attributes.conditionalLogicAction">
+                    <el-radio label="show">Show field if conditions are matched</el-radio>
+                    <el-radio label="hide">Hide field if conditions are matched</el-radio>
+                </el-radio-group>
+                
+                <div v-if="attributes.conditionalLogicConditions && attributes.conditionalLogicConditions.length" class="conditional-logic-conditions-wrapper row-form-wrapper">
+                    <h5>Conditions</h5>
+                    <el-row class="row-form-item" :gutter="10" v-for="(condition, conditionIndex) in attributes.conditionalLogicConditions" :key="conditionIndex">
+                        <el-col :span="8">
+                            <el-select v-if="conditionalLogicFields.length" v-model="condition.field" placeholder="Field">
+                                <el-option v-for="(field, fieldIndex) in conditionalLogicFields" :key="fieldIndex" :value="field.id" :label="field.label"></el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-select v-model="condition.operator" placeholder="Operator">
+                                <el-option value="is" label="is" />
+                                <el-option value="not" label="is not" />
+                                <el-option value="gt" label="greater than" />
+                                <el-option value="lt" label="less than" />
+                                <el-option value="contains" label="contains" />
+                                <el-option value="starts_with" label="starts with" />
+                                <el-option value="ends_with" label="ends with" />
+                            </el-select>
+                        </el-col>
+                        <el-col :span="8"><el-input v-model="condition.value" placeholder="Value" /></el-col>
+                        <el-col :span="2">
+                            <div class="action-buttons">
+                                <div class="action-button delete" @click="deleteConditionalLoginConditionByIndex(conditionIndex)"><font-awesome-icon icon="trash-alt" /></button></div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <el-alert v-else type="info" :closable="false" class="no-result-wrapper">
+                    <em>You have not defined any conditions yet</em>
+                </el-alert>
+                <el-button size="mini" type="success" @click="addConditionalLogicCondition"><font-awesome-icon icon="plus-circle" /> Add Condition</el-button>
+            </div>
+        </el-collapse-item>
+    </el-collapse>
+</div>

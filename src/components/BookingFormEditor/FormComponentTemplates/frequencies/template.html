@@ -1,0 +1,25 @@
+<div v-if="frequencies.length" class="frequency card-grid">
+    <div class="service-options-wrapper">
+        <div class="options-listing">
+            <el-row :gutter="20">
+                <el-col :span="8" :xs="24" v-for="(frequency, frequencyIndex) in frequencies" :key="frequencyIndex">
+                    <div class="options-listing-item shadow" :class="{checked: isFrequencySelected(frequency)}" @click.stop="onFrequencySelect(frequency)">
+                        <div class="item-inner">
+                            <div class="item-icon">
+                                <inline-svg :src="require('@/assets/booking-form/svgs/frequency-icon.svg')" />
+                            </div>
+                            <div class="item-content">
+                                <div class="frequency-discount">
+                                    <strong><span v-if="frequency.discount_type == 'amount'">{{ $currency }}</span><span>{{ frequency.discount }}</span><span v-if="frequency.discount_type == 'percent'">%</span></strong>
+                                </div>
+                                <em style="font-style:normal;">Discount</em>
+                                <div class="frequency-name">{{ frequency.name }}</div>
+                            </div>
+                        </div>
+                        <div class="item-checked"><font-awesome-icon :icon="['fas', 'check']" /></div>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+</div>

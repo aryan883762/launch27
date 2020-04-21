@@ -1,0 +1,226 @@
+.booking-form-component {
+    position: relative;
+    input, select, textarea {
+        outline: none;
+    }
+    .highlighter {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        outline: 1px solid #018bd0;
+        &.selected {
+            outline-color: #12a012;
+        }
+    }
+    .block-name {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateY(-100%);
+        background-color: #018bd0;
+        color: #fff;
+        line-height: normal;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+
+    .block-name, .inline-menu {
+    }
+
+    .inline-menu {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateY(-100%);
+        .inline-menu-inner {
+            background-color: #018bd0;
+            color: #fff;
+            line-height: normal;
+            padding: 3px 7px;
+            font-size: 12px;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            .menu-items {
+                display: block;
+                .menu-item {
+                    display: inline-block;
+                    padding: 0 5px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    &.selected {
+        >.highlighter {
+            outline-color: #12a012;
+        }
+        >.block-name, >.inline-menu .inline-menu-inner {
+            background-color: #12a012;
+        }
+    }
+    &.highlighted {
+        .component-inner {
+            // position: relative;
+            // z-index: 2;
+        }
+    }
+
+    &.component-type--customFields {
+        &.is-hidden {
+            background-color: var(--l27-company-main-color);
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 110px;
+            border-radius: 6px;
+            .hidden-item-overlay, .booking-form-component {
+                display: none;
+            }
+            .enable-custom-fields-button-wrapper {
+                color: #fff;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                h3 {
+                    font-size: 20px;
+                    text-transform: uppercase;
+                }
+                .el-button {
+                    background-color: #fff;
+                    color: #ff5a60;
+                    color: var(--l27-company-main-color);
+                    border: none;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+
+    .component-type--row {
+        width: 100%;
+        .children-wrapper {
+            width: 100%;
+            &:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+        }
+    }
+
+    .component-type--column {
+        float: left;
+    }
+
+    .component-type--divider {
+        position: relative;
+        .divider-line-wrapper {
+            position: relative;
+            .divider-line {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+
+    .hidden-item-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+        opacity: 0.3;
+        background-image: radial-gradient(#6b6b6b 20%, transparent 20%), radial-gradient(#fafafa 20%, transparent 20%);
+        background-color: #cacaca;
+        background-position: 0 0, 50px 50px;
+        background-size: 5px 5px;
+    }
+
+    .form-component-textfield, .form-component-textarea, .form-component-select {
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: transparent;
+    }
+
+    .form-component-select {
+        .el-select {
+            width: 100%;
+            .el-input__inner {
+                border: none;
+                height: initial;
+                line-height: initial;
+                padding: 0;
+                background-color: transparent;
+            }
+            .el-input__suffix {
+                margin-top: -5px;
+                margin-right: 0;
+                .el-input__suffix-inner {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                }
+            }
+        }
+    }
+
+    .form-component-textarea {
+        height: 100px;
+    }
+
+    .flip-list-move {
+        transition: transform 0.5s;
+    }
+    .no-move {
+        transition: transform 0s;
+    }
+    .ghost {
+        opacity: 0.5;
+        background: #c8ebfb;
+    }
+    .list-group {
+        min-height: 20px;
+    }
+
+    .handle {
+        cursor: move !important;
+    }
+
+    .add-custom-fields-button-wrapper {
+        padding: 10px 0;
+        text-align: center;
+        background-color: #f9f9f9;
+    }
+    .special-type--custom-fields-container-wrapper {
+        &.is-hidden {
+            .add-custom-fields-button-wrapper {
+                display: none;
+            }
+        }
+
+        .special-type--custom-fields-container {
+            >.component-inner {
+                position: relative;
+            }
+        }
+    }
+}
+
+.booking-form-component-menu {
+    .el-form-item {
+        margin-bottom: 10px;
+    }
+}

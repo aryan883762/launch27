@@ -1,0 +1,19 @@
+.booking-form-credit-card-payment {
+    margin-top: 20px;
+    .card-number-wrapper {
+        position: relative;
+        .card-number {
+            margin: 0;
+            font-size: 18px;
+        }
+        .remove-card {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #ff0000;
+        }
+    }
+}

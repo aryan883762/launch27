@@ -1,0 +1,29 @@
+.el-dropdown, .el-dropdown-menu {
+
+  .el-button {
+    &:first-child {
+   /*   border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;*/
+    }
+
+    &.el-dropdown__caret-button, &.el-dropdown-selfdefine {
+     /* border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;*/
+    }
+
+
+  }
+
+  .el-dropdown-menu__item {
+
+    &.history-link {
+      a, div, .el-link--inner {
+        width: 100% !important;
+        text-align: left;
+      }
+    }
+
+  }
+
+
+}

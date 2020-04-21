@@ -1,0 +1,45 @@
+
+.inner-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inner-table td {
+    border: 0px solid #000;
+}
+
+.booking-line {
+    page-break-after: always;
+    display: block;
+}
+
+
+.customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.customers tr td, #customers tr th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    page-break-inside: avoid;
+}
+
+.customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.customers tr:hover {
+    background-color: #ddd;
+}
+
+.customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: black;
+    text-align: center;
+}

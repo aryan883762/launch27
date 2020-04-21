@@ -1,0 +1,71 @@
+.your-personals-info{
+
+
+
+  .svg-section,.form-section{
+
+  }
+
+  .svg-section{
+
+    .svg-logo{
+      position: absolute;
+      top: 50px;
+      left: 50px;
+    }
+
+    .main-illus{
+
+      margin: 0 auto;
+    }
+  }
+
+
+  .svg-section{
+    background-color: #FAFDFE;
+  }
+
+  .form-section{
+    margin-left: 100px;
+  }
+
+  .form-section-wrapper{
+    h2,p.frm-message{
+      text-align: center;
+    }
+
+    .personal-form{
+      input[type=text]{
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid #E6E6E6;
+        padding: 10px 0;
+        margin: 10px 0;
+      }
+    }
+    .upload-pic-form{
+      .avatar-uploader{
+
+        .el-upload.el-upload--text{
+          background-color: #F8FAFB;
+        }
+        .el-icon-plus.avatar-uploader-icon{
+          height: 150px;
+
+        }
+      }
+    }
+
+    .button-area{
+      text-align: center;
+      margin: 20px 0;
+      button{
+        padding: 10px 50px;
+        font-size: 14px;
+      }
+    }
+  }
+
+
+
+}

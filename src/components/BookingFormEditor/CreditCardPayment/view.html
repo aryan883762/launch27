@@ -1,0 +1,37 @@
+<div class="booking-form-credit-card-payment" v-loading="$helpers.isLoading('bookingForm:payment')">
+    <div v-if="card.number" class="card-number-wrapper box shadow">
+        <h4 class="card-number">{{ card.number }}</h4>
+        <div class="remove-card" @click="removeCard"><font-awesome-icon :icon="['far', 'times-circle']" /></div>
+    </div>
+    <template v-else>
+        <div v-if="useFspay" class="fspay-wrapper">
+            <full-steam-pay-checkout
+                template="inline"
+                :merchant-company-id="company.id"
+                transaction-type="token"
+                submitButtonText="Add Card"
+                :name-on-card="fullName"
+                :show-existing-cards="false"
+                :billing-address="billingAddress"
+                :company="company"
+                :show-button="false"
+                :on-token-received="onFullSteamPayTokenReceived"
+                :on-mounted="onFullSteamPayMounted"
+            />
+        </div>
+        <div v-else class="stripe-wrapper">
+            <el-row :gutter="20">
+                <el-col :span="18" :xs="24">
+                   <!-- <card ref="stripeEl" class="stripe-card" :stripe="stripePublishableKey" :options="stripeOptions" />-->
+                    <stripe-card ref="stripe_card" :inline="true" :root-model="{}" :company="company"></stripe-card>
+                </el-col>
+                <el-col :span="6" :xs="24">
+                    <div class="add-card-button-wrapper">
+                        <el-button @click="addStripeCard" v-if="!card.added">Add Card</el-button>
+                        <el-button disabled type="success" plain v-else><font-awesome-icon :icon="['far', 'check-circle']" /> Card added</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+    </template>
+</div>

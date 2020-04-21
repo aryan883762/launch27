@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="158px" height="154px" viewBox="0 0 158 154" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>audit</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="55.85" height="104.7"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="audit" transform="translate(4.000000, 3.000000)">
+            <g id="Group" stroke="#57A1FC" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
+                <g id="Layer0_0_1_STROKES-link">
+                    <path d="M93.45,105.35 C92.6166667,106.016667 91.7666667,106.65 90.9,107.25 C81.4333333,113.683333 70.6166667,116.9 58.45,116.9 C42.4166667,116.9 28.7166667,111.233333 17.35,99.9 C6.01666667,88.5666667 0.333333333,74.8666667 0.3,58.8 C0.333333333,42.7 6.01666667,28.9833333 17.35,17.65 C28.7166667,6.31666667 42.4,0.65 58.4,0.65 C74.5333333,0.583333333 88.2666667,6.23333333 99.6,17.6 C110.966667,28.9333333 116.616667,42.65 116.55,58.75 C116.616667,68.7166667 114.483333,77.75 110.15,85.85 C109.383333,87.3166667 108.533333,88.75 107.6,90.15 L146.85,129.35 C148.883333,131.383333 149.883333,133.85 149.85,136.75 C149.883333,139.583333 148.883333,142.016667 146.85,144.05 C144.816667,146.083333 142.35,147.1 139.45,147.1 C136.616667,147.1 134.183333,146.083333 132.15,144.05 L93.45,105.35 C95.5833333,103.683333 97.6333333,101.866667 99.6,99.9 C102.666667,96.8333333 105.333333,93.5833333 107.6,90.15" id="Layer0_0_1_STROKES"></path>
+                </g>
+            </g>
+            <g id="Group" transform="translate(30.700000, 5.250000)">
+                <g id="Clipped">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Rectangle"></g>
+                    <text id="$" fill="#57A1FC" mask="url(#mask-2)" font-family="Helvetica" font-size="87" font-weight="normal">
+                        <tspan x="2" y="84.35">$</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

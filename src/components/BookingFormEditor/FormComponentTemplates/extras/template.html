@@ -1,0 +1,33 @@
+<div class="service-options-wrapper">
+    <template v-if="selectedServices.length">
+        <template v-for="service in selectedServices">
+            <h4>Extras for: {{ service.name }}</h4>
+            <div v-if="service.extras && service.extras.length" class="service-extras-wrapper">
+                <div class="options-listing">
+                    <el-row :gutter="20">
+                        <el-col v-if="extra.active" :span="8" :xs="24" v-for="extra in service.extras">
+                            <div class="options-listing-item shadow" :class="{checked: isServiceExtraSelected(service, extra)}" @click.stop="onServiceExtraSelect(service, extra)">
+                                <div class="item-inner">
+                                    <div class="item-icon">
+                                        <img svg-inline :src="service.icon" />
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="extra-price" v-if="showPrice"><strong>{{ $currency + extra.price }}</strong></div>
+                                        <div class="extra-name">{{ extra.name }}</div>
+                                    </div>        
+                                </div>
+                                <div class="item-checked"><font-awesome-icon :icon="['fas', 'check']" /></div>
+                                <div v-if="isServiceExtraSelected(service, extra) && extra.maximum_quantity > extra.minimum_quantity" class="extra-quantity-controls">
+                                    <div class="extra-quantity-control add" @click.stop="increaseServiceExtra(service, extra)"><font-awesome-icon :icon="['fas', 'plus']" /></div>
+                                    <div class="extra-quantity-control subtract" @click.stop="decreaseServiceExtra(service, extra)"><font-awesome-icon :icon="['fas', 'minus']" /></div>
+                                    <div class="extra-quantity-value">{{ getServiceExtraQuantity(service, extra) }}</div>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+            </div>
+            <template v-else><em>There no extras associated with this service</em></template>
+        </template>
+    </template>
+</div>

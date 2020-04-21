@@ -1,0 +1,5 @@
+<div class="form-component-checkbox">
+    <el-checkbox-group v-model="model" @change="onChange">
+        <el-checkbox v-for="(option, optionIndex) in itemAttributes.options" :label="option.value">{{ option.label }}</el-checkbox>
+    </el-checkbox-group>
+</div>

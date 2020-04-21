@@ -1,0 +1,59 @@
+.el-calendar-table {
+  /*  .el-calendar-day {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 8px;
+      height: 43px !important;
+    }
+
+    td.is-selected {
+      background-color: $launch-primary-color !important;
+      color: white;
+      font-weight: bold;
+    }*/
+}
+
+.vuecal__cell {
+
+
+  .vuecal__cell-date {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2 !important;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    line-height: 18px;
+
+  }
+
+
+  .vuecal__event--focus, .vuecal__event:focus {
+    box-shadow: none;
+  }
+
+  .vuecal__event {
+    background: transparent;
+  }
+
+  .vuecal__event-title {
+    span {
+      color: black;
+    }
+  }
+
+  .vuecal__cell-content {
+    .vuecal__event-title {
+      text-indent: 10px;
+    }
+  }
+
+  &.selected {
+    .vuecal__cell-content {
+      box-shadow: 0px 0px 1px 1px #B3E5FC;
+    }
+  }
+}
+

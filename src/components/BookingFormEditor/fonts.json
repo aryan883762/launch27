@@ -1,0 +1,81 @@
+[
+    {
+        "id": "abel",
+        "name": "Abel",
+        "google-fonts": true,
+        "font-family": "'Abel', sans-serif"
+    },
+    {
+        "id": "dosis",
+        "name": "Dosis",
+        "google-fonts": true,
+        "font-family": "'Dosis', sans-serif"
+    },
+    {
+        "id": "open-Sans-condensed-300",
+        "name": "Open Sans Condensed",
+        "google-fonts": true,
+        "google-fonts-name": "Open+Sans+Condensed:300",
+        "font-family": "'Open Sans Condensed', sans-serif"
+    },
+    {
+        "id": "pt-sans",
+        "name": "PT Sans",
+        "google-fonts": true,
+        "font-family": "'PT Sans', sans-serif"
+    },
+    {
+        "id": "Pacifico",
+        "name": "Pacifico",
+        "google-fonts": true,
+        "font-family": "'Pacifico', cursive"
+    },
+    {
+        "id": "Raleway",
+        "name": "Raleway",
+        "google-fonts": true,
+        "font-family": "'Raleway', sans-serif"
+    },
+    {
+        "id": "Satisfy",
+        "name": "Satisfy",
+        "google-fonts": true,
+        "font-family": "'Satisfy', cursive"
+    },
+    {
+        "id": "Signika",
+        "name": "Signika",
+        "google-fonts": true,
+        "font-family": "'Signika', sans-serif"
+    },
+    {
+        "id": "Source-Sans-Pro",
+        "name": "Source Sans Pro",
+        "google-fonts": true,
+        "font-family": "'Source Sans Pro', sans-serif"
+    },
+    {
+        "id": "Ubuntu",
+        "name": "Ubuntu",
+        "google-fonts": true,
+        "font-family": "'Ubuntu', sans-serif"
+    },
+    {
+        "id": "Kaushan-Script",
+        "name": "Kaushan Script",
+        "google-fonts": true,
+        "font-family": "'Kaushan Script', cursive"
+    },
+    {
+        "id": "Montez",
+        "name": "Montez",
+        "google-fonts": true,
+        "font-family": "'Montez', cursive"
+    },
+    {
+        "id": "Montserrat-Alternates",
+        "name": "Montserrat Alternates",
+        "google-fonts": true,
+        "font-family": "'Montserrat Alternates', sans-serif"
+    }
+]

@@ -1,0 +1,65 @@
+<div v-if="componentVisibility" class="booking-form-component" :style="wrapperStyles" :class="wrapperClasses" @mouseenter="onHover" @mouseleave="onHoverOff" @click.stop="onClick"  v-loading="isLoading">
+    <div v-if="isSelected || isHighlighted" class="inline-menu">
+        <div v-if="draggable || deletable" class="inline-menu-inner">
+            <div class="menu-items">
+                <div v-if="draggable" class="menu-item handle component-sort-handle"><font-awesome-icon :icon="['fas', 'arrows-alt']" /></div>
+                <div v-if="deletable" class="menu-item" @click.stop="deleteComponent"><font-awesome-icon :icon="['far', 'trash-alt']" /></div>
+            </div>
+        </div>
+    </div>
+    <template v-if="editorMode">
+        <div v-if="isHighlighted" class="block-name">{{ blockName }}</div>
+        <div v-if="isHighlighted || isSelected" class="highlighter"></div>
+        <div v-if="currentItemAttributes.hidden === true" class="hidden-item-overlay"></div>
+    </template>
+    <div class="component-inner">
+        <div v-if="currentItemAttributes.label" class="component-label-wrapper" :style="itemLabelStyles">
+            <label>{{ currentItemAttributes.label }}</label>
+        </div>
+
+        <component :is="componentToLoad" :editor-mode="editorMode" :item-id="item.id" :item="currentItem" :settings="settings" :item-styles="processedStyles" :item-attributes="currentItemAttributes" :layout="layout" :style="['textfield', 'textarea'].indexOf(settings.type) !== -1 ? {} : processedStyles" :class="itemClasses" :id="'booking-form-component-' + item.id"></component>
+    
+        <template v-if="item.children && item.children.length">
+            <template v-if="currentItem.sortable">
+                <draggable :list="sortable.list" class="sortable-wrapper" handle=".component-sort-handle" ghost-class="ghost" @end="onSortableEnd">
+                    <div class="sortable-child" v-for="(child, childIndex) in sortedChildren">
+                        <form-component :child-index="childIndex" :parent="item" :custom-fields-layout="currentItem.type == 'customFields' ? item : customFieldsLayout" :editor-mode="editorMode" :key="getSortableItemKey(child)" :item.sync="child" :layout.sync="layout" :overrides.sync="overrides" :template.sync="template" />
+                    </div>
+                </draggable>
+            </template>
+            <template v-else>
+                <form-component :child-index="childIndex" :parent="item" :custom-fields-layout="currentItem.type == 'customFields' ? item : customFieldsLayout" :editor-mode="editorMode" v-for="(child, childIndex) in item.children" :key="child.id" :item.sync="child" :layout.sync="layout" :overrides.sync="overrides" :template.sync="template" />
+            </template>
+        </template>
+        <template v-else>
+            <template v-if="editorMode && currentItem.type == 'column'">
+                <div class="dnd-drop-placeholder">
+                    <template v-if="currentItem.customField">
+                        <el-popover placement="bottom" title="Custom fields" width="480" trigger="focus" v-model="customFieldMenuState[item.id]">
+                            <custom-fields-menu :exclude-items="['2column', '3column', 'divider', 'spacer']" @select="onCustomFieldMenuItemSelect" />
+                            <el-button round size="mini" slot="reference" @click.stop="customFieldMenuState[item.id] = !customFieldMenuState[item.id]">Click here to add an item</el-button>
+                        </el-popover>
+                    </template>
+                    <span v-else>Drop an item here</span>
+                </div>
+            </template>
+        </template>
+
+        <div v-if="hasErrors" class="field-errors">{{ displayErrors }}</div>
+
+        <template v-if="editorMode">
+            <template v-if="currentItem.type == 'customFields'">
+                <div class="enable-custom-fields-button-wrapper" v-if="currentItemAttributes.hidden === true">
+                    <h3>Additional Information</h3>
+                    <el-button type="success" round @click.stop="enableCustomFields">Enable custom fields</el-button>
+                </div>
+                <div v-else class="add-custom-fields-button-wrapper">
+                    <el-popover placement="bottom" title="Custom fields" width="480" trigger="focus" v-model="customFieldMenuState[item.id]">
+                        <custom-fields-menu @select="onCustomFieldMenuItemSelect" />
+                        <el-button type="primary" round slot="reference" @click.stop="customFieldMenuState[item.id] = !customFieldMenuState[item.id]">Add custom field</el-button>
+                    </el-popover>
+                </div>
+            </template>
+        </template>
+    </div>
+</div>

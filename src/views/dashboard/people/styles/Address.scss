@@ -1,0 +1,33 @@
+.component-people-addresses {
+
+ .el-collapse-item__content {
+    padding: 0px 0px 25px 0px;
+  }
+
+  .address-box-content-title {
+    display: block;
+  }
+
+  .el-col {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
+
+  .address-box {
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+
+  .address-box-content-body {
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .default-address {
+    border-radius: 25px;
+    font-size: 11px;
+  }
+}

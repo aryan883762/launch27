@@ -1,0 +1,252 @@
+
+.page.onboarding {
+
+    @import "responsive";
+
+    $button-color: #ff8604;
+    $input-border-color: #BDBDBD;
+
+    max-width: 1366px;
+    margin: 0 auto;
+
+    svg {
+        image {
+            width: 100px;
+        }
+    }
+
+    .img-illustration {
+        float: left;
+    }
+
+    .el-select {
+        width: 100%;
+    }
+
+    .el-form {
+
+
+        .el-form-item {
+            //margin-bottom: 10px;
+        }
+
+        .el-date-editor.el-input, .el-date-editor.el-input__inner {
+            width: 100%;
+        }
+    }
+
+    .el-input-group__append {
+        background: white;
+        border: none;
+
+        /*  .el-button {
+            border: 1px solid $launch-text-color;
+            font-size: 13px !important;
+          }*/
+    }
+
+    /* .el-button.form-button {
+       border: 1px solid $launch-text-color;
+       font-size: 13px !important;
+
+     }*/
+
+    .el-table th, .el-table td {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+
+        .el-button {
+            border-radius: 0px !important;
+        }
+    }
+
+    .el-table {
+        .cell {
+            padding-left: 0px;
+            font-size: 13px;
+        }
+    }
+
+    .el-button--primary {
+
+
+    }
+
+    .el-button--text {
+        /* border: none !important;
+         padding: 15px 0px !important;
+         min-width: 0 !important;*/
+        text-decoration: underline !important;
+        color: $button-color;
+        cursor: pointer;
+
+        &:hover, &:active {
+            color: darken($button-color, 10%);
+        }
+
+        &.remove {
+            height: 35px;
+            line-height: 35px;
+            padding: 3px 0px !important;
+        }
+    }
+
+    .el-input__inner {
+        @include rem(border, 0px);
+        @include rem(border-bottom, 1px);
+        border-style: solid;
+        border-color: $input-border-color;
+        border-radius: 0;
+        @include rem(padding-left, 0px);
+        @include rem(padding-right, 0px);
+
+    }
+
+    .steps {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 32px;
+        line-height: 32px;
+        text-transform: uppercase;
+
+        i {
+            font-style: normal;
+            background: $input-border-color;
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 50%;
+            margin-right: 5px;
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: $launch-text-color;
+            font-weight: 600;
+            font-size: 11px;
+
+            &:hover {
+                color: #3db8da;
+            }
+
+            &.active {
+                font-weight: 600;
+                color: #3db8da;
+
+                i {
+                    background: #39a4d3;
+                }
+            }
+
+            &.success {
+                color: #39b54a;
+                font-weight: 700;
+
+                svg {
+                    fill: #39b54a;
+                }
+
+                i {
+                    background: #39b54a;
+                }
+            }
+
+        }
+    }
+
+    &.company {
+        .currency {
+            font-size: 14px;
+        }
+
+        .el-form-item {
+            position:relative;
+        }
+
+        .el-form-item__label {
+            position: absolute;
+            left: -12px;
+            top: 13px;
+        }
+
+
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            display: block;
+            width: 178px;
+            height: 89px;
+            line-height: 89px;
+            text-align: center;
+            border: 1px dashed #1d1c1c;
+        }
+
+        .avatar, .business-logo {
+            width: 178px;
+            height: 89px;
+            display: block;
+        }
+
+
+        .el-upload-list__item-name {
+            max-width: 140px;
+        }
+
+    }
+
+    &.opening {
+        .el-form-item {
+            margin-bottom: 10px;
+
+            .el-input--prefix .el-input__inner {
+                padding-left: 30px;
+            }
+
+            .el-input--suffix .el-input__inner {
+                padding-right: 30px;
+            }
+        }
+    }
+
+    &.teams {
+        .cell {
+            padding: 10px;
+            font-size: 11px;
+
+            .el-button {
+                padding: 0px;
+                margin: 0px;
+            }
+        }
+    }
+
+    &.services {
+        .el-input-group__prepend {
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .el-form-item {
+            bottom: 0px;
+        }
+    }
+}

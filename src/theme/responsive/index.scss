@@ -1,0 +1,56 @@
+@media screen and (max-width: 420px) {
+
+  body {
+    main {
+      min-height: 0 !important;
+    }
+
+    .el-main {
+      padding: 0px;
+    }
+
+    h1 {
+      font-size: 15px;
+    }
+
+    .content-footer {
+      left: 0px;
+
+      p {
+        font-size: 12px;
+        display: block;
+        padding: 10px;
+
+        .el-button {
+          display: block;
+          margin: 0 auto;
+
+        }
+      }
+    }
+
+    .el-dialog {
+      &.fullscreen-modal-display {
+        .el-dialog__body {
+          padding: 0;
+        }
+        .el-dialog__header .el-dialog__headerbtn {
+          right: 20px;
+        }
+      }
+
+    }
+
+
+
+     .box-shadow{
+      box-shadow: none;
+    }
+
+  }
+
+  .el-select-dropdown {
+    max-width: 200px !important;
+  }
+
+}

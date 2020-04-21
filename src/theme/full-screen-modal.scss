@@ -1,0 +1,109 @@
+.el-dialog {
+
+  //border-radius: 10px !important;
+
+  &.fullscreen-modal-display {
+    background: #f4f8f9;
+    overflow-y: scroll !important;
+
+    .el-dialog__header {
+
+      padding: 0px;
+      border-bottom: 1px solid #e6eef2;
+      box-sizing: border-box;
+
+      max-width: 1366px;
+      margin: 10px auto 0;
+      position: relative;
+
+      .el-dialog__title {
+        font-size: 18px;
+        font-weight: 500;
+        color: #323c4a;
+        display: inline-block;
+        padding: 20px 0px;
+      }
+
+      .modal-title {
+        height: 70px;
+        line-height: 70px;
+        @include rem(font-size, 18px);
+        margin-left: 0px;
+        font-weight: 500;
+      }
+
+      .el-dialog__headerbtn {
+        position: absolute;
+        top: 18px;
+        right: 0px;
+        padding: 0;
+        background: 0 0;
+        border: none;
+        outline: 0;
+        cursor: pointer;
+        font-size: 26px;
+        color: #7e95a6;
+      }
+
+      .el-dialog__close {
+        color: #ffffff;
+        border: 1px solid;
+        background: #607D8B;
+        font-weight: bold;
+        border-radius: 5px;
+        padding: 2px;
+        right: 0px;
+        position: absolute;
+
+        &:hover {
+          font-weight: 600;
+          color: white;
+          background: $launch-primary-color;
+        }
+      }
+
+      .el-button-group {
+        padding-right: 40px;
+
+        span {
+          color: $launch-text-color;
+          text-transform: uppercase;
+          font-weight: 600;
+          font-size: 1.3rem;
+        }
+
+        .el-button {
+          height: 70px;
+          min-width: 100px;
+
+          border-radius: 0;
+
+          margin: 0 20px;
+
+          &.active {
+            border-bottom: 2px solid;
+
+            span {
+              color: black;
+            }
+          }
+        }
+      }
+
+    }
+
+
+    .el-dialog__body {
+      padding: 10px 20px;
+      font-size: 14px;
+      margin-bottom: 50px;
+    }
+
+    .modal-body {
+      /* max-width : 1400px;*/
+      max-width: 1366px;
+      margin: 0 auto;
+
+    }
+  }
+}

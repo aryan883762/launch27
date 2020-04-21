@@ -1,0 +1,10 @@
+<div class="payment-methods">
+    <div class="payment-methods-options" v-if="company.payment_methods">
+        <el-radio-group v-model="form[item.formId]">
+            <el-radio v-if="company.payment_methods.card" label="card" @change="onPaymentMethodChange">Card</el-radio>
+            <el-radio v-if="company.payment_methods.cash" label="cash" @change="onPaymentMethodChange">Cash</el-radio>
+            <el-radio v-if="company.payment_methods.check" label="check" @change="onPaymentMethodChange">Check</el-radio>
+        </el-radio-group>
+    </div>
+    <credit-card-payment v-if="!editorMode && form[item.formId] == 'card'" />
+</div>

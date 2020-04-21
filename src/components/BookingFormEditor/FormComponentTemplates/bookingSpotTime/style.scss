@@ -1,0 +1,34 @@
+.available-slots {
+  min-height: 200px;
+
+  .available-slot-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+  }
+
+  .available-slot-items {
+    margin-left: -5px;
+    margin-right: -5px;
+
+    .available-slot-item {
+      &.selected {
+        .available-slot-item-inner {
+          background-color: #ff5a60;
+          background-color: var(--l27-company-main-color);
+          color: #fff;
+        }
+      }
+
+      .available-slot-item-inner {
+        margin: 5px;
+        padding: 15px 5px;
+        text-align: center;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+      }
+    }
+  }
+}

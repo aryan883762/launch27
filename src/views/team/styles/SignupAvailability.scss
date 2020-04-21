@@ -1,0 +1,66 @@
+.working-days{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+
+  .svg-section,.form-section{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    position: relative;
+  }
+
+  .svg-section{
+
+    .svg-logo{
+      position: absolute;
+      top: 50px;
+      left: 50px;
+    }
+
+    .main-illus{
+      width: 500px;
+      margin: 0 auto;
+    }
+  }
+
+
+  .svg-section{
+    background-color: #FAFDFE;
+  }
+
+  .form-section{
+    margin-left: 100px;
+  }
+
+  .form-section-wrapper{
+    h2,p.frm-message{
+      text-align: center;
+    }
+
+    .button-area{
+      text-align: center;
+      button{
+        padding: 10px 50px;
+        font-size: 14px;
+      }
+    }
+  }
+
+
+  .el-date-editor{
+    input.el-input__inner{
+      border: none;
+      border-bottom: 1px solid #E6E6E6;
+      border-radius: 0px;
+      padding: 10px;
+
+    }
+
+    .el-input__prefix{
+      display: none;
+    }
+  }
+}

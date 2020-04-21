@@ -1,0 +1,70 @@
+.component-content-sidebar {
+    >.el-collapse {
+        .el-collapse-item {
+            .el-collapse-item__header {
+                padding-left: 10px;
+                border-bottom: 1px solid #EBEEF5;
+            }
+            .el-collapse-item__content {
+                padding: 10px;
+            }
+        }
+    }
+
+    .el-form {
+        .el-form-item {
+            margin-bottom: 10px;
+        }
+    }
+
+    .row-form-wrapper {
+        padding-bottom: 10px;
+        .row-form-item {
+            margin-bottom: 5px;
+            .action-buttons {
+                .action-button {
+                    display: inline-block;
+                    padding: 5px;
+                    cursor: pointer;
+                    &.move {
+                        cursor: move;
+                    }
+                }
+            }
+        }
+    }
+
+    .no-result-wrapper {
+        margin: 10px 0;
+    }
+
+    .conditional-logic-wrapper {
+        position: relative;
+        .conditional-logic-state-checkbox {
+            margin-bottom: 10px;
+        }
+        &.disabled {
+            padding: 10px;
+            overflow: hidden;
+            .conditional-logic-state-checkbox {
+                position: absolute;
+                z-index: 2;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                margin-bottom: 0;
+            }
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #fff;
+                opacity: 0.9;
+            }
+        }
+    }
+}

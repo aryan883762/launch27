@@ -1,0 +1,26 @@
+@media screen and (max-width: 420px) {
+  .avatar-uploader {
+    float: none;
+    width: 180px;
+    margin: 0 auto;
+  }
+
+  .el-upload--text {
+    margin: 0 auto 10px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .inline-block {
+    float: none;
+    padding: 20px !important;
+  }
+
+  .button-container {
+    text-align: center;
+
+    .el-button{
+      float : none;
+    }
+  }
+}

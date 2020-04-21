@@ -1,0 +1,150 @@
+<div class="booking-form-component-styler" v-if="styles">
+    <template v-if="styleables.indexOf('font') !== -1">
+        <h5>Font</h5>
+        <el-row :gutter="10">
+            <el-col :span="12">
+                <template v-if="fonts.length">
+                    <el-select filterable v-model="styles.fontId" placeholder="Select font" @change="onFontChanged">
+                        <el-option v-for="font in fonts" :key="font.id" :label="font.name" :value="font.id">
+                            <span :style="{fontFamily: font['font-family']}">{{ font.name }}</span>
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-col>
+            <el-col :span="8">
+                <el-select filterable v-model="styles.fontSize" placeholder="Size">
+                    <el-option v-for="size in $helpers.range(10, 48)" :key="size" :label="size + 'px'" :value="size"></el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="4">
+                <el-color-picker v-model="styles.color" color-format="hex" @active-change="onColorChange('color', $event)"></el-color-picker>
+            </el-col>
+        </el-row>
+        <el-row :gutter="10">
+            <el-col :span="24">
+                <el-button-group>
+                    <el-button size="mini" :type="styles.fontWeight == 'bold' ? 'primary' : 'default'" @click="toggleStyleItem('fontWeight', 'bold')"><font-awesome-icon icon="bold" /></el-button>
+                    <el-button size="mini" :type="styles.fontStyle == 'italic' ? 'primary' : 'default'" @click="toggleStyleItem('fontStyle', 'italic')"><font-awesome-icon icon="italic" /></el-button>
+                    <el-button size="mini" :type="styles.textDecoration == 'underline' ? 'primary' : 'default'" @click="toggleStyleItem('textDecoration', 'underline')"><font-awesome-icon icon="underline" /></el-button>
+                </el-button-group>
+                <el-button-group class="pull-right">
+                    <el-button size="mini" :type="styles.textAlign == 'left' ? 'primary' : 'default'" @click="toggleStyleItem('textAlign', 'left')"><font-awesome-icon icon="align-left" /></el-button>
+                    <el-button size="mini" :type="styles.textAlign == 'center' ? 'primary' : 'default'" @click="toggleStyleItem('textAlign', 'center')"><font-awesome-icon icon="align-center" /></el-button>
+                    <el-button size="mini" :type="styles.textAlign == 'right' ? 'primary' : 'default'" @click="toggleStyleItem('textAlign', 'right')"><font-awesome-icon icon="align-right" /></el-button>
+                    <el-button size="mini" :type="styles.textAlign == 'justify' ? 'primary' : 'default'" @click="toggleStyleItem('textAlign', 'justify')"><font-awesome-icon icon="align-justify" /></el-button>
+                </el-button-group>
+            </el-col>
+        </el-row>
+    </template>
+    <template v-if="styleables.indexOf('backgroundColor') !== -1 || styleables.indexOf('backgroundImage') !== -1">
+        <h5>Background</h5>
+        <el-row>
+            <el-col :span="12">
+                <span>Color</span>
+                <el-color-picker v-model="styles.backgroundColor" color-format="hex" @active-change="onColorChange('backgroundColor', $event)"></el-color-picker>
+            </el-col>
+        </el-row>
+    </template>
+    <template v-if="styleables.indexOf('divider') !== -1">
+        <h5>Line</h5>
+        <el-row>
+            <el-col :span="12">
+                <span>Color</span>
+                <el-color-picker v-model="styles.lineColor" color-format="hex" @active-change="onColorChange('lineColor', $event)"></el-color-picker>
+            </el-col>
+            <el-col :span="12">
+                <span>Width</span>
+                <span class="pull-right">{{tmpStyles.lineWidth}}</span>
+                <el-slider v-model="tmpStyles.lineWidth" :min="1" :max="20" :show-tooltip="false" @input="onPropertyChanged('lineWidth')"></el-slider>
+            </el-col>
+        </el-row>
+    </template>
+    <template v-if="styleables.indexOf('border') !== -1">
+        <h5>Border</h5>
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <span>Color</span>
+                <el-color-picker v-model="styles.borderColor" color-format="hex" @active-change="onColorChange('borderColor', $event)"></el-color-picker>
+            </el-col>
+            <el-col :span="12">
+                <span>Width</span>
+                <span class="pull-right">{{tmpStyles.borderWidth}}</span>
+                <el-slider v-model="tmpStyles.borderWidth" :min="0" :max="20" :show-tooltip="false" @input="onPropertyChanged('borderWidth')"></el-slider>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <span>Style</span>
+                <el-select filterable v-model="styles.borderStyle" placeholder="Size">
+                    <el-option label="Solid" value="solid"></el-option>
+                    <el-option label="Dashed" value="dashed"></el-option>
+                    <el-option label="Dotted" value="dotted"></el-option>
+                    <el-option label="Double" value="double"></el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="12">
+                <span>Radius</span>
+                <span class="pull-right">{{tmpStyles.borderRadius}}</span>
+                <el-slider v-model="tmpStyles.borderRadius" :min="0" :max="50" :show-tooltip="false" @input="onPropertyChanged('borderRadius')"></el-slider>
+            </el-col>
+        </el-row>
+    </template>
+    <template v-if="styleables.indexOf('height') !== -1">
+        <h5>Height</h5>
+        <el-input-number v-model="tmpStyles.height" controls-position="right" :min="0" :max="100" size="small" @change="onPropertyChanged('height')"></el-input-number>
+    </template>
+    <template v-if="styleables.indexOf('padding') !== -1">
+        <h5>Padding</h5>
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <span>Top</span>
+                <span class="pull-right">{{tmpStyles.paddingTop}}</span>
+                <el-slider v-model="tmpStyles.paddingTop" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('paddingTop')"></el-slider>
+            </el-col>
+            <el-col :span="12">
+                <span>Bottom</span>
+                <span class="pull-right">{{tmpStyles.paddingBottom}}</span>
+                <el-slider v-model="tmpStyles.paddingBottom" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('paddingBottom')"></el-slider>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <span>Left</span>
+                <span class="pull-right">{{tmpStyles.paddingLeft}}</span>
+                <el-slider v-model="tmpStyles.paddingLeft" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('paddingLeft')"></el-slider>
+            </el-col>
+            <el-col :span="12">
+                <span>Right</span>
+                <span class="pull-right">{{tmpStyles.paddingRight}}</span>
+                <el-slider v-model="tmpStyles.paddingRight" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('paddingRight')"></el-slider>
+            </el-col>
+        </el-row>
+    </template>
+    <template v-if="styleables.indexOf('margin') !== -1">
+        <h5>Margin</h5>
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <span>Top</span>
+                <span class="pull-right">{{tmpStyles.marginTop}}</span>
+                <el-slider v-model="tmpStyles.marginTop" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('marginTop')"></el-slider>
+            </el-col>
+            <el-col :span="12">
+                <span>Bottom</span>
+                <span class="pull-right">{{tmpStyles.marginBottom}}</span>
+                <el-slider v-model="tmpStyles.marginBottom" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('marginBottom')"></el-slider>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <span>Left</span>
+                <span class="pull-right">{{tmpStyles.marginLeft}}</span>
+                <el-slider v-model="tmpStyles.marginLeft" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('marginLeft')"></el-slider>
+            </el-col>
+            <el-col :span="12">
+                <span>Right</span>
+                <span class="pull-right">{{tmpStyles.marginRight}}</span>
+                <el-slider v-model="tmpStyles.marginRight" :min="0" :max="100" :show-tooltip="false" @input="onPropertyChanged('marginRight')"></el-slider>
+            </el-col>
+        </el-row>
+    </template>
+</div>

@@ -1,0 +1,160 @@
+<div :class="[!editorMode ? 'no-header' : 'editor-mode']" class="booking-form-editor" :style="baseStyles" v-loading="$helpers.isLoading('bookingForm:root') || !ready">
+    <div @click="onHeaderClick" class="editor-header" v-if="editorMode">
+        <el-row>
+            <el-col :span="12">
+                <h3><span v-if="!preview.visible">Configure</span><span v-else>Preview</span> your {{isQuoteForm ? "quote": "booking"}} form</h3>
+            </el-col>
+            <el-col :span="12">
+                <div class="editor-toolbox" v-if="layout.layout">
+                    <div class="pull-right">
+                        <div class="preview-buttons">
+                            <el-dropdown :type="preview.visible ? 'danger' : 'warning'" @click="onPreviewClick" @command="onPreviewClick" size="small" split-button trigger="click">
+                                <span v-if="!preview.visible">Preview</span>
+                                <span v-else>
+                                    <font-awesome-icon icon="desktop" v-if="preview.format == 'desktop'"/>
+                                    <font-awesome-icon icon="mobile-alt" v-if="preview.format == 'mobile'"/>
+                                    Exit Preview
+                                </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item :disabled="preview.format == 'desktop'" command="desktop"><i>
+                                        <font-awesome-icon icon="desktop"/>
+                                    </i> Desktop
+                                    </el-dropdown-item>
+                                    <el-dropdown-item :disabled="preview.format == 'mobile'" command="mobile"><i>
+                                        <font-awesome-icon icon="mobile-alt"/>
+                                    </i> Mobile
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                        <template v-if="!preview.visible">
+
+                            <el-button @click="generateCode" plain round size="small" type="default">Generate Code</el-button>
+                            <el-button @click="resetForm" plain round size="small" type="danger">Reset to Default</el-button>
+                            <el-button @click="saveTemplate" round size="small" type="primary"  >Save Changes</el-button>
+
+                            <el-button @click="closeEditor" plain round size="small" type="danger">Exit</el-button>
+
+
+                        </template>
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
+    </div>
+    <template v-if="ready">
+        <div @click="onEditorClick" class="editor-layout">
+            <div class="editor-layout-inner">
+                <div :class="wrapperClasses" class="components-wrapper">
+                    <form-component :editor-mode="editorMode" :item.sync="topItem" :key="topItemIndex" :layout.sync="layout" :overrides.sync="overrides" :template.sync="template" v-for="(topItem, topItemIndex) in layout.layout"/>
+                </div>
+            </div>
+        </div>
+
+        <template v-if="editorMode">
+            <div :class="{visible: mainSidebar.visible}" class="editor-sidebar">
+                <div @click="toggleMainSidebar" class="sidebar-drawer"><i class="el-icon-s-tools"></i></div>
+                <el-tabs v-model="mainSidebar.activeTab">
+                    <el-tab-pane label="Default Styles" name="styles">
+                        <el-collapse accordion v-model="mainSidebar.activeStylesSection">
+                            <el-collapse-item name="general" title="General">
+                                <component-styler :item.sync="overrides" :styleables="['font']" section="default"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="text" title="Text blocks">
+                                <component-styler :item.sync="overrides" :styleables="components.text.styleables" section="text"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="container" title="Container">
+                                <component-styler :item.sync="overrides" :styleables="components.container.styleables" section="container"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="textfield" title="Text fields">
+                                <component-styler :item.sync="overrides" :styleables="components.textfield.styleables" section="textfield"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="button" title="Buttons">
+                                <component-styler :item.sync="overrides" :styleables="components.button.styleables" section="button"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="label" title="Labels">
+                                <component-styler :item.sync="overrides" :styleables="components.label.styleables" section="label"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="textarea" title="Text area">
+                                <component-styler :item.sync="overrides" :styleables="components.textarea.styleables" section="textarea"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="select" title="Select">
+                                <component-styler :item.sync="overrides" :styleables="components.select.styleables" section="select"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="divider" title="Divider">
+                                <component-styler :item.sync="overrides" :styleables="components.divider.styleables" section="divider"/>
+                            </el-collapse-item>
+                            <el-collapse-item name="spacer" title="Spacer">
+                                <component-styler :item.sync="overrides" :styleables="components.spacer.styleables" section="spacer"/>
+                            </el-collapse-item>
+                        </el-collapse>
+                    </el-tab-pane>
+                    <el-tab-pane label="Templates" name="templates">
+                        <div class="templates-wrapper" v-if="masterTemplates.length">
+                            <el-row :gutter="10">
+                                <el-col :span="12">
+                                    <el-card :body-style="{ padding: '0px' }" :key="templateIndex" v-for="(template, templateIndex) in masterTemplates">
+                                        <img :src="template.thumbnail" class="image">
+                                        <div style="padding: 14px;">
+                                            <span>{{ template.name }}</span>
+                                        </div>
+                                    </el-card>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
+            </div>
+
+            <div :class="{visible: activeComponent.editing === true}" class="component-sidebar">
+                <el-tabs v-model="activeComponent.activeTab">
+                    <el-tab-pane label="Content" name="content">
+                        <component-content-sidebar :item.sync="activeComponent" :key="activeComponent.id" :layout="layout" v-if="activeComponent.editing"/>
+                    </el-tab-pane>
+                    <el-tab-pane label="Styles" name="styles" v-if="activeComponent.styleables.length">
+                        <component-styler :current-styles="activeComponent.styles" :item-styles.sync="activeComponent.styles" :item.sync="activeComponent.settings" :key="activeComponent.id" :styleables="activeComponent.styleables" v-if="activeComponent.editing"></component-styler>
+                    </el-tab-pane>
+                </el-tabs>
+                <div class="save-button-wrapper">
+                    <!-- <el-button @click="saveActiveComponent" size="mini" type="primary">Save</el-button> -->
+                    <el-button @click="cancelActiveComponent" size="mini">Close</el-button>
+                </div>
+            </div>
+        </template>
+    </template>
+    <div :class="{visible: preview.visible}" class="preview-wrapper" v-if="editorMode">
+        <div :class="[this.preview.format]" class="frame-wrapper">
+            <div class="top-bar"></div>
+            <div class="content-area">
+                <div class="iframe-wrapper" v-loading="$helpers.isLoading('bookingForm:previewLoading')">
+                    <iframe :src="preview.url" @load="onIframeLoad" frameborder="0" v-if="preview.url"></iframe>
+                </div>
+            </div>
+            <div class="bottom-bar"></div>
+        </div>
+    </div>
+
+    <el-dialog :append-to-body="true" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :visible.sync="addressMap.visible" @open="onAddressMapOpen" custom-class="addressMapModal" title="Confirm your location on the map" v-if="!editorMode" width="30%">
+        <div class="address-map-wrapper" v-if="addressMap.visible" v-loading="$helpers.isLoading('bookingForm:addressMap')">
+            <MglMap :access-token="addressMap.mapbox.accessToken" :center="addressMap.coordinates" :map-style.sync="addressMap.mapbox.mapStyle" :zoom="14">
+                <MglGeolocateControl position="top-right"/>
+                <MglMarker :coordinates="addressMap.coordinates" :draggable="true" @dragend="onAddressMapDragMarker"></MglMarker>
+            </MglMap>
+        </div>
+        <span class="dialog-footer" slot="footer">
+            <el-button :disabled="$helpers.isLoading('bookingForm:addressMap')" @click="addressMap.visible = false">Cancel</el-button>
+            <el-button :loading="$helpers.isLoading('bookingForm:addressMap')" @click="confirmAddressMap" type="primary">Confirm</el-button>
+        </span>
+    </el-dialog>
+
+    <el-dialog :append-to-body="true" :visible.sync="generateCodeModal" title="Embed Code" width="30%">
+        <div class="el-textarea">
+            <textarea class="el-textarea__inner" rows="6"><iframe id="launch27-booking-iframe" frameBorder="0" height="100%" style="border:none;width:100%;min-height:2739px;overflow:hidden"   src="{{ embedUrl }}" width="100%"></iframe>
+<script>let iframe = document.getElementById("launch27-booking-iframe");iframe.setAttribute("src",iframe.getAttribute("src")+window.location.search);</script>
+            </textarea>
+        </div>
+        <span class="dialog-footer" slot="footer">
+            <el-button @click="generateCodeModal = false">Close</el-button>
+        </span>
+    </el-dialog>
+</div>

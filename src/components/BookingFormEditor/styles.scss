@@ -1,0 +1,253 @@
+.booking-form-editor {
+    word-break: initial;
+    min-height: 200px;
+    &.no-header {
+        .editor-layout {
+            padding-top: 0;
+            .editor-layout-inner {
+                margin: 0 auto;
+            }
+        }
+    }
+    &.editor-mode {
+        .component-type--row {
+            padding: 10px 5px;
+        }
+        .component-type--container {
+            padding: 5px;
+        }
+        .booking-form-sidebar {
+            padding-left: 20px !important;
+        }
+        .form-component-select {
+            .el-select {
+                pointer-events: none;
+            }
+        }
+    }
+    .editor-layout {
+        background-color: #fff;
+        padding: 80px 0;
+        .editor-layout-inner {
+            max-width: 1200px;
+            margin: 80px auto;
+        }
+    }
+    .editor-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 10px 25px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        background-color: #fff;
+        z-index: 4;
+        .editor-toolbox {
+            padding: 10px 0;
+            &:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+            .preview-buttons {
+                display: inline-block;
+                margin-right: 10px;
+                .el-dropdown {
+                    .el-button-group {
+                        button {
+                            &:first-child {
+                                border-top-left-radius: 20px;
+                                border-bottom-left-radius: 20px;
+                                svg {
+                                    height: 10px;
+                                }
+                            }
+                            &:last-child {
+                                border-top-right-radius: 20px;
+                                border-bottom-right-radius: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .editor-sidebar {
+        width: 340px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #fff;
+        padding: 0 10px;
+        padding-bottom: 40px;
+        box-shadow: 0px 0px 5px 0px #ccc;
+        z-index: 5;
+        transform: translateX(-100%);
+        transition: 0.3s all;
+        &.visible {
+            transform: translateX(0);
+        }
+        .el-tabs {
+            height: 100%;
+            .el-tabs__content {
+                height: 100%;
+                overflow-y: auto;
+                .el-collapse-item__header {
+                    padding-left: 10px;
+                }
+            }
+        }
+        .sidebar-drawer {
+            position: absolute;
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50px);
+            width: 60px;
+            height: 60px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background: #fff;
+            box-shadow: 5px 0px 5px 0px #ccc;
+            cursor: pointer;
+            .el-icon-s-tools {
+                font-size: 36px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        .el-collapse .el-collapse-item__header {
+            border-bottom: 1px solid #EBEEF5;
+        }
+        .el-collapse-item__header.is-active {
+            border-bottom-color: transparent;
+        }
+
+        .templates-wrapper {
+            .el-card {
+                img {
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+
+    .component-sidebar {
+        width: 340px;
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #fff;
+        box-shadow: 0px 0px 5px 0px #ccc;
+        z-index: 5;
+        overflow: hidden;
+        padding: 0 10px;
+        padding-bottom: 105px;
+        transform: translateX(100%);
+        transition: 0.3s all;
+        &.visible {
+            transform: translateX(0);
+        }
+        .el-tabs {
+            height: 100%;
+            .el-tabs__content {
+                height: 100%;
+                overflow-y: auto;
+            }
+        }
+        .save-button-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            text-align: center;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.5);
+        }
+    }
+
+    .preview-wrapper {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 70px;
+        bottom: 0;
+        background-color: #1fb6ff;
+        padding: 20px;
+        z-index: 8;
+        transform: translateY(100%);
+        transition: 0.3s all;
+        &.visible {
+            transform: translateY(0);
+        }
+
+        .frame-wrapper {
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            position: relative;
+            transition: 0.3s all;
+            &.desktop {
+                width: 1280px;
+                height: 800px;
+                border-radius: 20px;
+            }
+            &.mobile {
+                width: 380px;
+                height: 700px;
+                border-radius: 10px;
+                .content-area {
+                    top: 30px;
+                    bottom: 20px;
+                }
+            }
+            .content-area {
+                background-color: #fff;
+                position: absolute;
+                top: 30px;
+                left: 0;
+                right: 0;
+                bottom: 30px;
+            }
+            .iframe-wrapper {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #fff;
+                iframe {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.addressMapModal {
+    .address-map-wrapper {
+        width: 100%;
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .addressMapModal {
+        width: 100% !important;
+        margin-top: 0 !important;
+    }
+}

@@ -1,0 +1,38 @@
+.inline-date-picker{
+  .vl-calendar__arrow {
+    top: 10px;
+  }
+  .vl-calendar__arrow--back{
+    left: 9px !important;
+  }
+  .vl-calendar__arrow--forward{
+    right: 18px !important;
+  }
+
+  .vl-calendar-month {
+    padding: 10px;
+    &.vl-calendar__month {
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 0 5px #e6e6e6;
+      .vl-calendar-month__title{
+        line-height: 2;
+        margin-top: -10px;
+        margin-left: -10px;
+        margin-right: -10px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 5px #e6e6e6;
+        padding: 10px;
+      }
+      .vl-calendar-month__week-day {
+        font-weight: bold;
+      }
+    }
+    .vl-calendar-month__day {
+      &.selected {
+        background-color: #ff5a60;
+        background-color: var(--l27-company-main-color);
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.el-input {
+  .el-input__inner{
+    line-height: normal;
+  }
+  &.round {
+    input {
+      border-radius: 20px;
+    }
+  }
+
+  &.no-border {
+    input {
+      border: none;
+      box-shadow: 1px 1px 2px 1px #ccc5c580;
+    }
+  }
+}
+
+.el-form-item__content .el-input-group {
+  vertical-align: middle !important;
+}
+
+.el-autocomplete-suggestion {
+  max-width: 400px;
+}
+
+.el-autocomplete-suggestion li:hover {
+  background-color: none !important;
+}
+
+.el-autocomplete-suggestion li {
+  padding: 10px 20px !important;
+  margin: 0;
+  line-height: 34px;
+  cursor: pointer;
+  color: #606266;
+  font-size: 14px;
+  list-style: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+
+
+  span.link {
+    line-height: 1.6;
+    display: block;
+  }
+
+  .suggestion-email {
+    font-size: 11px;
+    font-style: normal;
+    display: block;
+    line-height: 1.5;
+  }
+}
+

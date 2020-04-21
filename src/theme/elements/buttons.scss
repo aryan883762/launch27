@@ -1,0 +1,32 @@
+.el-button {
+
+  &.el-button--primary:not(.is-round) {
+
+  }
+  &.add-text-button {
+    color: #F44336 !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    line-height: 1;
+  }
+
+  &.is-plain {
+    background: white !important;
+
+    &:hover, &:focus {
+      color: initial !important;
+    }
+  }
+
+}
+
+.el-button-group {
+  .el-link {
+    margin-right: 10px;
+
+  }
+}
+
+.el-link {
+
+}

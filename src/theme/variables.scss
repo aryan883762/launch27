@@ -1,0 +1,35 @@
+@import "mixins/rem";
+
+
+$launch-text-color : #a6adb3;
+$launch-text-font-size : 14px;
+$launch-dashboard-bg-color : #f4f8f9;
+
+$launch-primary-color : #1fb6ff;
+$launch-primary-text-button: #1fde16;
+
+$launch-brand-color: #ff8602;
+
+$launch-success-color: #67c23a;
+
+$launch-info-color : #909399;
+
+$launch-danger-color: #F56C6C;
+
+$color-black: #000000;
+$color-white: #ffffff;
+$color-grey: #dddddd;
+
+
+
+
+.launch-text {
+  color : #333;
+  @include rem(font-size, 14px);
+  line-height: 2.4rem;
+}
+
+.border-shadow{
+  //border-radius: 5px;
+  box-shadow: 0px 0px 5px 1px #EEEEEE;
+}

@@ -1,0 +1,57 @@
+.page.dashboard {
+  .getting-started {
+
+
+
+    padding-bottom: 100px;
+
+    .sub-container {
+      background: white;
+      @include rem(height, 500px);
+    }
+
+    .icon-holder {
+    }
+
+    .started-item {
+      background: #f4fbff;
+
+      @include rem(min-height, 100px);
+
+      .content-holder {
+        padding: 15px;
+        background: white;
+      }
+
+      h4 {
+      }
+
+      p {
+        margin-top: 0;
+        width: calc(100% - 100px);
+        margin-bottom: 0;
+      }
+
+      .el-button {
+        text-decoration: underline;
+        font-size: 13px;
+
+        &.el-button--text{
+
+        }
+      }
+    }
+
+    @media screen and (max-width: 420px){
+      .el-button {
+
+        &.el-button--text{
+          display:block;
+          width : 100%;
+          text-align: left;
+          margin-left : 0px;
+        }
+      }
+    }
+  }
+}

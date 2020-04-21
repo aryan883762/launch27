@@ -1,0 +1,11 @@
+.el-radio {
+    &:not(.is-bordered){
+        .el-radio__label {
+            font-weight: 400 !important;
+            font-size: 13px !important;
+            line-height: 2;
+        }
+    }
+
+
+}

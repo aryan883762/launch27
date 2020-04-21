@@ -1,0 +1,70 @@
+.app-section .add-teams {
+    padding: 0px !important;
+    margin-top: 10px;
+
+
+    .el-button-group {
+        margin-top: 10px;
+        float: right;
+
+        .el-button {
+            margin-left: 20px !important;
+            text-decoration: underline;
+        }
+    }
+
+    .sub-title {
+        margin: 20px 0px;
+        display: block;
+        font-size: 15px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        small {
+            font-weight: normal;
+            font-size: 12px;
+            color: $launch-text-color;
+        }
+    }
+
+    ul.teams-list {
+        padding: 0px;
+        display: block;
+        cursor: pointer;
+
+        li {
+            display: block;
+
+            padding: 10px;
+            box-sizing: border-box;
+
+            span {
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            .profile-avatar {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                float: left;
+                margin-right: 5px;
+            }
+
+            i {
+                display: block;
+                color: $launch-text-color;
+                font-style: normal;
+                font-size: 12px;
+            }
+
+            &.active {
+                border-left: 4px solid $launch-primary-color;
+                background: $launch-dashboard-bg-color;
+            }
+        }
+    }
+
+}

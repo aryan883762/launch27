@@ -1,0 +1,71 @@
+.signup-page {
+
+  @import "responsive";
+
+  //max-width: 960px;
+  //margin: 0 auto;
+
+  .col-center {
+    height: calc(100%);
+  }
+
+  .sub-container {
+    @include rem(height, 450px)
+  }
+
+  .el-input__inner {
+    @include rem(border, 0px);
+    @include rem(border-bottom, 1px);
+    border-style: solid;
+    border-color: #f3f3f3;
+    border-radius: 0;
+    @include rem(padding-left, 0px);
+    @include rem(padding-right, 0px);
+
+  }
+
+  .bullets-list {
+    display: flex;
+    align-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .el-form-item {
+    position:relative;
+  }
+
+  .el-form-item__label {
+    position: absolute !important;
+    left: -12px;
+    top: 13px;
+  }
+
+  .vue-tel-input {
+    border: none !important;
+    border-bottom: 1px solid #f3f3f3 !important;
+
+    input {
+      font-size: 13px;
+      font-family: inherit;
+      color: $launch-text-color;
+    }
+  }
+
+  .el-input-group__append, .el-input-group__prepend {
+    white-space: nowrap;
+    font-size: 13px;
+    border: none;
+    background: none;
+    padding-left: 0px;
+  }
+
+}
+
+.login-page {
+
+}

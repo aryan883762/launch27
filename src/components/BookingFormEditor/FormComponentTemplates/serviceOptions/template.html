@@ -1,0 +1,56 @@
+<div class="service-options-wrapper">
+    <template v-if="selectedServices.length">
+        <template v-for="service in selectedServices">
+            <h4>Pricing options for: {{ service.name }}</h4>
+            <div v-if="service.hourly && $store.state.bookingFormEditor.hourlySelection[service.id]" class="hourly-wrapper">
+                <div class="options-listing">
+                    <el-row :gutter="20">
+                        <el-col :span="8" :xs="24">
+                            <div class="options-listing-item shadow" :class="{'has-errors': hasErrors(`${service.id}.hourly.teams`) }">
+                                <h5>Size of team</h5>
+                                <el-select v-model="$store.state.bookingFormEditor.hourlySelection[service.id].teams" @change="onFieldChange(`${service.id}.hourly.teams`)">
+                                    <el-option :key="team_size" :value="team_size" v-for="team_size in parseInt(service.hourly_settings.teams_maximum || 1)" v-if="team_size >= parseInt(service.hourly_settings.teams_minimum)">
+                                        {{ team_size }} <span v-if="team_size == 1">member</span><span v-else>members</span>
+                                    </el-option>
+                                </el-select>
+                            </div>
+                        </el-col>
+                        <el-col :span="8" :xs="24">
+                            <div class="options-listing-item shadow" :class="{'has-errors': hasErrors(`${service.id}.hourly.hours`) }">
+                                <h5>Hours</h5>
+                                <el-select v-model="$store.state.bookingFormEditor.hourlySelection[service.id].hours" @change="onFieldChange(`${service.id}.hourly.hours`)">
+                                    <el-option :key="hours" :value="hours" v-for="hours in parseInt(service.hourly_settings.hours_maximum)" v-if="hours >= parseInt(service.hourly_settings.hours_minimum)"> {{ hours }} hours</el-option>
+                                </el-select>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+            </div>
+            <div v-else-if="service.pricing_variables && service.pricing_variables.length" class="pricing-variables-wrapper">
+                <div class="options-listing" v-loading="$helpers.isLoading('fetch:pricingVariables:' + service.id)">
+                    <template v-if="servicePricingVariables[service.id] && $store.state.bookingFormEditor.pricingVariableSelection[service.id]">
+                        <el-row :gutter="20">
+                            <el-col :span="8" :xs="24" v-for="(pricing_variable, pvIndex) in servicePricingVariables[service.id]">
+                                <div class="options-listing-item shadow" :class="{'has-errors': hasErrors(`${service.id}.pv.${pricing_variable.id}`) }">
+                                    <h5>{{pricing_variable.description || pricing_variable.name}}</h5>
+                                    <el-select v-if="pricing_variable.prices.length == 1" v-model="$store.state.bookingFormEditor.pricingVariableSelection[service.id][pricing_variable.id]" @change="onFieldChange(`${service.id}.pv.${pricing_variable.id}`)">
+                                        <el-option :key="(price - 1)" :value="pricing_variable.prices[0].id + ':' + (price - 1)" v-for="(price, priceIndex) in (pricing_variable.prices[0].max_qty + 1)" v-if="(price - 1) >= pricing_variable.prices[0].min_qty" :label="`${price - 1} ${pricing_variable.name} (${$currency}${pricing_variable.prices[0].price * (price - 1)})`"></el-option>
+                                    </el-select>
+                                    <el-select v-if="pricing_variable.prices.length > 1" v-model="$store.state.bookingFormEditor.pricingVariableSelection[service.id][pricing_variable.id]" @change="onFieldChange(`${service.id}.pv.${pricing_variable.id}`)">
+                                        <el-option :key="price.id" :value="price.id" v-for="(price, priceIndex) in pricing_variable.prices" :label="`${price.label || 'Range'} (${price.min_qty} - ${price.max_qty}) ${$currency}${price.price}`"></el-option>
+                                    </el-select>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </template>
+                    <template v-else>
+                        <em>There are no pricing variables for this service</em>
+                    </template>
+                </div>
+            </div>
+            <template v-else>
+                <em>There are no additional options for this service</em>
+            </template>
+        </template>
+    </template>
+</div>

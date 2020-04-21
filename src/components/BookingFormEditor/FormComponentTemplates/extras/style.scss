@@ -1,0 +1,23 @@
+.extra-quantity-controls {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    bottom: 0;
+    .extra-quantity-control {
+        position: absolute;
+        right: 0;
+        padding: 10px;
+        &.add {
+            top: 0;
+        }
+        &.subtract {
+            bottom: 0;
+        }
+    }
+    .extra-quantity-value {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+    }
+}

@@ -1,0 +1,8 @@
+<div class="image-wrapper">
+    <template v-if="itemAttributes.format == 'svg'">
+        <inline-svg v-if="itemAttributes.url" :src="getUrl()" />
+    </template>
+    <template v-else>
+        <img v-if="itemAttributes.url" :src="getUrl()" />
+    </template>
+</div>

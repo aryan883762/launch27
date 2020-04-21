@@ -1,0 +1,74 @@
+.app-section.people {
+
+    position:relative;
+
+    .el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {
+        box-shadow: none;
+    }
+
+    ul.people-list {
+        padding: 0px;
+        display: block;
+        cursor: pointer;
+
+        li {
+            display: block;
+            padding:  10px;
+            box-sizing: border-box;
+            border-left: 4px solid white;
+
+            &:hover {
+                background: #f3f3f3;
+            }
+
+            .profile-avatar {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                float: left;
+                margin-right: 5px;
+            }
+
+            small {
+                display: block;
+                color: $launch-text-color;
+                font-size: 11px;
+            }
+
+            &.active {
+                border-left: 4px solid $launch-primary-color;
+                background: $launch-dashboard-bg-color;
+            }
+        }
+    }
+
+    .el-menu-item {
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: 600;
+        color: $launch-text-color;
+        border: none;
+        padding: 0px;
+
+        a {
+            height: 60px;
+            line-height: 60px;
+            display: block;
+            padding: 0 20px;
+        }
+
+        &.router-link-exact-active {
+            border-color: $launch-primary-color;
+        }
+    }
+
+    .people-content-container {
+        .el-divider {
+            margin: 12px 0;
+        }
+    }
+
+    .filter-divider{
+        margin: 10px 0px;
+    }
+}

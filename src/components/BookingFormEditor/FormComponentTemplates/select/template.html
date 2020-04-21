@@ -1,0 +1,5 @@
+<div class="form-component-select" v-loading="isLoading">
+    <el-select ref="elSelect" v-model="form[item.formId]" :multiple="isMultipleSelection" :placeholder="itemAttributes.placeholder || 'Select'" @change="onSelect" :disabled="isLoading">
+        <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :value="option.value" :label="option.label"></el-option>
+    </el-select>
+</div>

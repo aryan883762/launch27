@@ -1,0 +1,273 @@
+.people-detail-wrap {
+
+    *{
+        outline: none;
+    }
+
+    padding: 0px 5px;
+
+    .content-box {
+        box-shadow: 0 0 29px 11px #eff4f9;
+        background: #fff;
+        min-height: 100px;
+        margin-bottom: 10px;
+        padding: 15px;
+        border-radius: 6px;
+
+    }
+
+    .ccd_email-tag {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        span{
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: normal;
+            width: 160px;
+        }
+
+        @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { // Not on safari
+            .el-tag__close.el-icon-close{
+                display: inline-block;
+                top: -8px;
+                vertical-align: middle;
+            }
+        }
+
+        //@supports not ( -moz-appearance:none ){
+        //    /* Add non-firefox CSS code here */
+        //}
+        //
+        //@-moz-document url-prefix() {
+        //
+        //
+        //}
+
+
+    }
+
+    .customer-box {
+        .customer-content-top-left-wrap {
+            .customer-content-top-icon {
+                float: left
+            }
+
+            .el-button {
+                position: relative;
+                right: -10px;
+                top: -10px;
+            }
+
+            .el-icon-more {
+                font-size: 25px;
+                transform: rotate(90deg);
+                color: $launch-text-color;
+            }
+
+            .customer-content-top-middle-wrap {
+
+                width: calc(100% - 74px);
+                margin-left: 10px;
+                display: inline-block;
+
+                .customer-content-top-name {
+
+                    color: #3a5162;
+
+                    font-weight: 600;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+
+                .customer-content-top-user-since {
+                    color: #9092a5;
+                    margin-top: 5px;
+                }
+            }
+
+            .customer-content-top-right-wrap {
+                margin-top: 10px;
+            }
+        }
+
+        .customer-button-wrap {
+            button {
+                width: 100%;
+                margin: 10px auto 0;
+                display: block;
+            }
+
+            .customer-appointment-btn {
+                background: #fff;
+                color: #1fb6ff;
+                border-color: #1fb6ff;
+
+                .customer-content-bottom-location-icon {
+                    width: 16px;
+                    height: 25px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding-right: 15px;
+                }
+            }
+
+            .customer-message-btn {
+                background: #fff;
+                color: #39b54a;
+                border-color: #39b54a;
+
+                .customer-content-bottom-message-icon {
+                    width: 21px;
+                    height: 18px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding-right: 15px;
+                }
+            }
+
+            .customer-block-btn {
+                background: #fff;
+                color: #eaab12;
+                border-color: #eaab12;
+
+                .customer-content-bottom-block-icon {
+                    width: 20px;
+                    height: 20px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding-right: 15px;
+                }
+            }
+        }
+    }
+
+    .address-box {
+        .el-row:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        .address-box-title {
+            color: #323c4a;
+
+            font-weight: 600;
+        }
+
+        span {
+
+            display: block;
+            padding-bottom: 5px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .address-box-content-title {
+            color: #536b7d;
+        }
+
+        .address-box-content-body {
+            color: #323c4a;
+        }
+
+        .address-box-street {
+            white-space: normal;
+        }
+
+    }
+
+    .credit-card-box {
+        .credit-card-box-title {
+            color: #323c4a;
+
+            font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .add-new-card-button-wrap {
+            text-align: right;
+            cursor: pointer;
+            color: #1fde16;
+
+            span {
+                &:first-child {
+
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    .tags-box {
+        .el-row {
+            &:first-child {
+                margin-bottom: 10px;
+            }
+        }
+
+        .tags-box-title {
+            color: #323c4a;
+
+            font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+      /*  .add-new-tag-button-wrap {
+            text-align: right;
+            color: #1fde16;
+            cursor: pointer;
+        }
+
+        .el-tag {
+            height: 25px;
+            line-height: 25px;
+            margin-right: 5px;
+            border-radius: 20px;
+            margin-bottom: 5px;
+        }*/
+    }
+
+    .notifications-box {
+        .el-switch__label * {
+            line-height: 1;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        .el-row {
+            &:first-child {
+                margin-bottom: 10px;
+            }
+
+            &:not(first-child) {
+                margin-bottom: 15px;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .notifications-box-title {
+            color: #323c4a;
+
+            font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .notification-title {
+            span {
+
+                color: #536b7d;
+            }
+        }
+    }
+
+}

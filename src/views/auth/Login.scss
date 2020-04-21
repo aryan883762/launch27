@@ -1,0 +1,80 @@
+.signin-page {
+
+    @import "responsive";
+
+    max-width: 1200px;
+    margin: 0 auto;
+    height : 100vh;
+
+    .el-form-item {
+        position:relative;
+    }
+
+    .el-form-item__label {
+        position: absolute !important;
+        left: -12px;
+        top: 13px;
+    }
+
+
+    .col-center {
+        height: calc(100%);
+    }
+
+
+
+    .el-card {
+        width: 480px;
+        margin: auto;
+
+        .signup-link {
+            color: $launch-brand-color;
+        }
+    }
+
+    .sub-container {
+        /*@include rem(height, 450px)*/
+        width: 320px;
+        padding-top: 30px;
+
+
+    }
+
+    .el-input__inner {
+        @include rem(border, 0px);
+        @include rem(border-bottom, 1px);
+        border-style: solid;
+        border-color: #f3f3f3;
+        border-radius: 0;
+        @include rem(padding-left, 0px);
+        @include rem(padding-right, 0px);
+
+    }
+
+    .vue-tel-input {
+        border: none !important;
+        border-bottom: 1px solid #f3f3f3 !important;
+
+        input {
+            font-size: 13px;
+            font-family: inherit;
+            color: $launch-text-color;
+        }
+    }
+
+    .el-input-group__append, .el-input-group__prepend {
+        white-space: nowrap;
+        font-size: 13px;
+        border: none;
+        background: none;
+    }
+
+}
+
+.login-page {
+
+}
+
+.pointer-cursor {
+    cursor: pointer;
+}

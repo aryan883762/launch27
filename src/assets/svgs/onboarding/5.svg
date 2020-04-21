@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	width="30px" height="30px" viewBox="0 0 30 30">
+<style type="text/css"><![CDATA[
+.style0 {
+  font-size: 26.6667px;
+  font-family: "Poppins-SemiBold";
+  fill: rgb(255,255,255);
+}
+]]></style>
+<circle cx="15.00" cy="15.00" r="15.00" fill="rgb(211,221,231)"/><text transform="matrix(0.38,0.00,0.00,0.38,14.81,19.71)" class="style0"><tspan x="-6.84" fill="rgb(255,255,255)">5</tspan></text></svg>

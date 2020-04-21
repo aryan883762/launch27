@@ -1,0 +1,5 @@
+<div class="form-component-radio">
+    <el-radio-group v-model="model" @change="onChange">
+        <el-radio v-for="(option, optionIndex) in itemAttributes.options" :label="option.value">{{ option.label }}</el-radio>
+    </el-radio-group>
+</div>

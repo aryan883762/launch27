@@ -1,0 +1,22 @@
+<div class="booking-form-custom-fields-menu">
+    <el-row>
+        <el-button size="mini" v-if="excludeItems.indexOf('textfield') === -1" @click="selectItem('textfield')">Textfield</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('textarea') === -1" @click="selectItem('textarea')">Textarea</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('select') === -1" @click="selectItem('select')">Select</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('checkbox') === -1" @click="selectItem('checkbox')">Checkbox</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('radio') === -1" @click="selectItem('radio')">Radio Button</el-button>
+    </el-row>
+    <br />
+    <el-row>
+        <el-button size="mini" v-if="excludeItems.indexOf('text') === -1" @click="selectItem('text')">Text block</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('datePicker') === -1" @click="selectItem('datePicker')">Date Picker</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('timePicker') === -1" @click="selectItem('timePicker')">Time Picker</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('divider') === -1" @click="selectItem('divider')">Divider</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('spacer') === -1" @click="selectItem('spacer')">Spacer</el-button>
+    </el-row>
+    <br />
+    <el-row>
+        <el-button size="mini" v-if="excludeItems.indexOf('2column') === -1" @click="selectItem('2column')">2-column layout</el-button>
+        <el-button size="mini" v-if="excludeItems.indexOf('3column') === -1" @click="selectItem('3column')">3-column layout</el-button>
+    </el-row>
+</div>

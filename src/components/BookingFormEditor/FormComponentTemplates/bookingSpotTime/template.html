@@ -1,0 +1,24 @@
+<div class="inline-time-picker" v-loading="$helpers.isLoading('bookingForm:available-slots')">
+    <div class="available-slots" v-if="selectedDateAvailableSlots.day">
+        <template v-if="selectedDateAvailableSlots.opened">
+            <template v-if="selectedDateAvailableSlots.slots && selectedDateAvailableSlots.slots.length">
+                <div class="available-slot-title shadow">Choose a time slot from below</div>
+                <div class="available-slot-items">
+                    <div class="available-slot-item" :class="{selected: isSlotSelected(slot)}" v-for="slot in selectedDateAvailableSlots.slots" @click.stop="onTimeSlotSelect(slot)">
+                        <div class="available-slot-item-inner">
+                            <font-awesome-icon :icon="['far', 'clock']" /> <strong>{{ displayTime(slot.time) }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </template>
+        <template v-else>
+            <p class="closed"><em>We're closed on this day</em></p>
+        </template>
+    </div>
+    <div v-else>
+        <div class="available-slots" >
+            <div class="available-slot-title shadow" v-if="!$helpers.isLoading('bookingForm:available-slots')">Sorry, no spots available</div>
+        </div>
+    </div>
+</div>

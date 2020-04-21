@@ -1,0 +1,79 @@
+<div class="services-wrapper" v-loading="$helpers.isLoading('bookingForm:category-services')">
+    <template v-if="!editorMode && categories.length > 1">
+        <div class="service-categories-wrapper">
+            <el-card class="box-card">
+                <div slot="header" class="clearfix"><span>Choose a category</span></div>
+                <div class="content">
+                    <el-radio v-for="(category, categoryIndex) in categories" :key="categoryIndex" v-model="form.serviceCategoryId" :label="category.id" @change="onCategorySelect">{{ category.name }}</el-radio>
+                </div>
+            </el-card>
+        </div>
+        <br>
+    </template>
+    <div v-if="services.length" class="card-grid">
+        <div class="card-grid-item" :class="{selected: isServiceSelected(service)}" v-for="service in services" @click="onServiceSelect(service)">
+            <div class="box shadow">
+                <div class="centered">
+                    <div class="card-grid-icon"><img :src="getServiceIcon(service)" /></div>
+                    <div class="service-name">{{ service.name }} ({{ $currency + service.base_price }})</div>
+                </div>
+                <div class="card-grid-checked"><font-awesome-icon :icon="['far', 'check-circle']" /></div>
+                <el-popover v-if="service.description || service.has_disclaimer" placement="top" title="About this service" width="300" trigger="hover">
+                    <div>
+                        <p v-if="service.description">{{ service.description }}</p>
+                        <p v-if="service.has_disclaimer">
+                            <small style="display:block; color:black;">Disclaimer</small>
+                            {{ service.disclaimer }}
+                        </p>
+                    </div>
+                    <i slot="reference" class="el-icon-info"></i>
+                </el-popover>
+            </div>
+        </div>
+    </div>
+
+    <el-dialog custom-class="services-pricing-variables-modal" title="Pricing Variables" v-if="!editorMode" :visible.sync="pricingVariablesModal" :append-to-body="true" width="30%" :show-close="false" :close-on-press-escape="false" :close-on-click-modal="false">
+        <div class="pricing-variables-form-wrapper" v-if="pricingVariablesModal" v-loading="loading_pv">
+            <div class="form-item" v-for="(pricing_variable, pvIndex) in selectedService.pricing_variables">
+                <h5>{{pricing_variable.description || pricing_variable.name}}</h5>
+                <el-select v-if="pricing_variable.prices.length == 1" v-model="pricingVariablesForm[pricing_variable.id]">
+                    <el-option :key="price" :value="pricing_variable.prices[0].id + ':' + price" v-for="price in pricing_variable.prices[0].max_qty" v-if="price >= pricing_variable.prices[0].min_qty" :label="price + ' ' + pricing_variable.name + ' (' + $currency + pricing_variable.prices[0].price * price + ')'"></el-option>
+                </el-select>
+                <el-select v-if="pricing_variable.prices.length > 1" v-model="pricingVariablesForm[pricing_variable.id]">
+                    <el-option :key="price.id" :value="price.id" v-for="(price, priceIndex) in pricing_variable.prices" :label="(price.label || 'Range ' + priceIndex) + ' - (' + $currency + price.price + ')'"></el-option>
+                </el-select>
+            </div>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="pricingVariablesModal = false">Cancel</el-button>
+            <el-button type="primary" @click="savePricingVariables">Confirm</el-button>
+        </span>
+    </el-dialog>
+
+    <el-dialog custom-class="services-hourly-modal" title="Hourly Options" v-if="!editorMode" :visible.sync="hourlyServiceModal" :append-to-body="true" width="30%" :show-close="false" :close-on-press-escape="false" :close-on-click-modal="false">
+        <div class="hourly-form-wrapper" v-if="hourlyServiceModal">
+            <el-form>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="Size of team">
+                            <el-select v-model="hourlyServiceForm.teams">
+                                <el-option :key="team_size" :value="team_size" v-for="team_size in parseInt(selectedService.hourly_settings.teams_maximum)" v-if="team_size >= parseInt(selectedService.hourly_settings.teams_minimum)"> {{ team_size }} members</el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="Hours">
+                            <el-select v-model="hourlyServiceForm.hours">
+                                <el-option :key="hours" :value="hours" v-for="hours in parseInt(selectedService.hourly_settings.hours_maximum)" v-if="hours >= parseInt(selectedService.hourly_settings.hours_minimum)"> {{ hours }} hours</el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="hourlyServiceModal = false">Cancel</el-button>
+            <el-button type="primary" @click="saveHourlyOptions">Confirm</el-button>
+        </span>
+    </el-dialog>
+</div>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="111px" height="111px" viewBox="0 0 111 111" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Dashboard</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Dashboard" transform="translate(3.000000, 3.000000)" stroke="#B7C1C7" stroke-width="7">
+            <path d="M14.0921053,48.3409091 L14.0921053,104.318182 L38.6842105,104.318182 L38.6842105,78.2727273 C38.7578947,73.7272727 40.1026316,69.8181818 42.7184211,66.5454545 C45.4447368,63.2272727 48.7236842,61.5681818 52.5552632,61.5681818 C53.1815789,61.5681818 53.7894737,61.6136364 54.3789474,61.7045455 C57.4368421,62.1590909 60.0894737,63.7727273 62.3368421,66.5454545 C65.0631579,69.9090909 66.4263158,73.9545455 66.4263158,78.6818182 C66.4263158,78.8636364 66.4263158,79.0227273 66.4263158,79.1590909 L66.4263158,104.318182 L90.2447368,104.318182 L90.2447368,48.3409091 M104.115789,45.4772727 L52.5552632,0.886363636 L0.994736842,45.4772727" id="Layer0_0_1_STROKES"></path>
+        </g>
+    </g>
+</svg>
