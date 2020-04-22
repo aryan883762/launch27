@@ -1,7 +1,7 @@
 <template>
     <div class="app-section people">
 
-        <el-card style="border:none;margin-bottom: 5px;">
+        <!-- <el-card style="border:none;margin-bottom: 5px;">
             <el-row>
                 <el-col class="bg-white text-center">
                     <div class="pull-left main-filters">
@@ -12,7 +12,7 @@
 
                     <div class="pull-right main-filters">
 
-                        <el-dropdown @click="importAccounts()" @command="handleImport" plain round size="mini"
+                         <el-dropdown @click="importAccounts()" @command="handleImport" plain round size="mini"
                                      split-button style="margin-right: 10px;" type="primary">
                             Import
                             <el-dropdown-menu slot="dropdown">
@@ -29,7 +29,7 @@
                                     Staff
                                 </el-dropdown-item>
                             </el-dropdown-menu>
-                        </el-dropdown>
+                        </el-dropdown> 
 
                         <el-dropdown @click="addNewPerson()" @command="handleDropDown" plain round size="mini"
                                      split-button style="margin-right: 10px;" type="warning">
@@ -61,10 +61,22 @@
                                 <el-dropdown-item :command="{ path: '/dashboard/accounts/add_team' }">
                                     Team
                                 </el-dropdown-item>
+                                <el-dropdown-item
+                                        :command="{ path: '/dashboard/accounts/import', query: { customer: true } }">
+                                    Customers
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                        :command="{ path: '/dashboard/accounts/import', query: { team: true } }">
+                                    Team Members
+                                </el-dropdown-item>
+                                <el-dropdown-item
+                                        :command="{ path: '/dashboard/accounts/import', query: { staff: true } }">
+                                    Staff
+                                </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
 
-
+                        
                         <el-button @click="$router.push({name : 'dashboard_people_leads'})" plain round size="mini"
                                    style="margin-left: 10px" type="warning">View Leads & Quote Enquiries
                         </el-button>
@@ -74,7 +86,7 @@
                 </el-col>
             </el-row>
 
-        </el-card>
+        </el-card> -->
 
 
         <el-row class="full-width">
@@ -101,9 +113,10 @@
                         </el-col>
                     </el-row>
                 </div>
-
-
                 <ul class="people-list" v-loading="loading">
+                    <el-input autocomplete="nope" class="filter small  header-search p-search" name="customer-search"
+                                  placeholder="Search by name, email, phone" style="width: 100%;"
+                                  v-model="searchQuery"></el-input>
                     <el-scrollbar wrap-class="list" view-class="view-box" :native="false" :style="{ maxHeight: (windowHeight - 280) + 'px', height: (windowHeight - 280) + 'px', overflow: 'hidden'}">
                         <li :class="{ active: account.id == selectedAccount.id }" @click="selectAccount(account.id)"
                             v-for="account in accounts">
@@ -138,28 +151,70 @@
 
             <el-col :md="19" :sm="18" :xs="24">
                 <el-scrollbar wrap-class="list" view-class="view-box" :native="false" :style="{ maxHeight: (windowHeight - 220) + 'px', height: (windowHeight - 220) + 'px', overflow: 'hidden'}">
-
-                    <el-radio-group @change="changeTab" class="sub-view-links" style="text-align:right;"
+                    <el-dropdown @click="addNewPerson()" @command="handleDropDown" plain round size="mini"
+                                     split-button class="add-dropdown" type="plain"> Add New
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/add', query: { customer: true } }">
+                                Customer
+                            </el-dropdown-item>
+                            <el-dropdown-item :command="{ path: '/dashboard/accounts/add', query: { team: true } }">
+                                Team Member
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/add', query: { staff: true } }">
+                                Staff
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/add', query: { accountant: true } }">
+                                Accountant
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/add', query: { marketer: true } }">
+                                Marketer
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/add', query: { developer: true } }">
+                                Developer
+                            </el-dropdown-item>
+                            <el-dropdown-item :command="{ path: '/dashboard/accounts/add_team' }">
+                                Team
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/import', query: { customer: true } }">
+                                Import Customers
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/import', query: { team: true } }">
+                                Team Members
+                            </el-dropdown-item>
+                            <el-dropdown-item
+                                    :command="{ path: '/dashboard/accounts/import', query: { staff: true } }">
+                                Staff
+                            </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                        <el-radio-group @change="changeTab" class="sub-view-links" style="text-align:right;"
                                     v-if="selectedAccount" v-model="active_tab">
-                        <el-radio-button :disabled="!selectedAccount" label="dashboard_people_appointments">
-                            Appointments
-                        </el-radio-button>
-                        <el-radio-button :disabled="!selectedAccount" label="people_teams"
-                                         v-if="selectedAccount.role === 'r_customer'">
-                            Teams
-                        </el-radio-button>
-                        <el-radio-button :disabled="!selectedAccount" label="people_address">
-                            Addresses
-                        </el-radio-button>
-                        <el-radio-button :disabled="!selectedAccount" label="people_notes">
-                            Notes
-                        </el-radio-button>
-                        <!-- <el-radio-button label="people_messages">
-                           Messages
-                         </el-radio-button>-->
-                        <el-radio-button label="people_stats">
-                            Stats
-                        </el-radio-button>
+                            <el-radio-button :disabled="!selectedAccount" label="dashboard_people_appointments">
+                                Appointments
+                            </el-radio-button>
+                            <el-radio-button :disabled="!selectedAccount" label="people_teams"
+                                            v-if="selectedAccount.role === 'r_customer'">
+                                Teams
+                            </el-radio-button>
+                            <el-radio-button :disabled="!selectedAccount" label="people_address">
+                                Addresses
+                            </el-radio-button>
+                            <el-radio-button :disabled="!selectedAccount" label="people_notes">
+                                Notes
+                            </el-radio-button>
+                            <!-- <el-radio-button label="people_messages">
+                            Messages
+                            </el-radio-button>-->
+                            <el-radio-button label="people_stats">
+                                Stats
+                            </el-radio-button>
                     </el-radio-group>
 
                     <el-row style="margin-top : 10px; margin-left : 0px;" v-loading="selected_loading">
@@ -535,6 +590,42 @@
                         }
                     }
                 }
+            }
+        }
+        .add-dropdown {
+            position: absolute; 
+            left: 10px; 
+            top: 12px;
+            .el-button-group>.el-button {
+                padding: 7px 15px;
+                color: #1fb6ff;
+                border-color: #1fb6ff;
+            }
+            .el-button-group>.el-button:first-child {
+                border-bottom-left-radius: 25px;
+                border-top-left-radius: 25px;
+                border-right-color: white;
+                &:hover{
+                    border-right-color: white;
+                }
+            }
+            .el-button-group>.el-button:last-child {
+                border-bottom-right-radius: 25px;
+                border-top-right-radius: 25px;
+                border-left-color: white;
+                &:hover{
+                    border-left-color: white;
+                }
+                &:focus{
+                    border-left-color: white;
+                     background-color: white;
+                }
+            }
+            .el-button-group >.el-button:active {
+                border-color: #1fb6ff;
+            }
+            .el-button-group >.el-button:hover {
+                background-color: white;
             }
         }
     }

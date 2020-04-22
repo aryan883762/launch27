@@ -172,40 +172,46 @@
                                         <el-checkbox :key="booking.charge.id">
                                             <!-- <router-link  style="font-weight:bold;color:#ff8602;text-decoration:underline;" :to="{  name: 'dashboard_booking_view', params: {id: booking.id, service_date: booking.service_date} }"> {{$moment(booking.service_date).format($date_format + ' ' + $time_format)}}</router-link> -->
                                         </el-checkbox>
-                                        <div style="display: inline-block">
-                                        <small style="margin-left: 25px;font-weight: 600; display: display: inline-flex;">{{ booking.account.first_name }} {{ booking.account.last_name }}</small>
-                                        <small style="margin-left: 25px; display: display: inline-flex;">{{ booking.address.street }} {{ booking.address.city }} {{ booking.address.state }} {{ booking.address.zip }}</small>
+                                        <div class="name-address">
+                                        <span class="p-name">{{ booking.account.first_name }} {{ booking.account.last_name }}</span>
+                                        <span class="p-address">{{ booking.address.street }} {{ booking.address.city }} {{ booking.address.state }} {{ booking.address.zip }}</span>
                                         </div>
                                         
                                         <!-- <el-rate allow-half disabled style="margin-left: 25px;" v-if="booking.rating" v-model="booking.rating.rating"/>
                                         <el-rate disabled style="margin-left: 25px;" v-else></el-rate> -->
+                                        <div class="time-and-services">
+                                         <div>
+                                            <div class="time-frequency">
+                                                <small><strong>{{$moment(booking.service_date).format($time_format)}}</strong></small>
+                                                <small>{{$moment(booking.service_date).format('MMMM DD')}}</small>
+                                                <small>{{(booking.frequency)?booking.frequency.rule_id:''}}</small>
+                                            </div>
+                                                <div class="b-services">
+                                                    <div v-if="booking.service_details && booking.service_details.length > 0">
+                                                        <div class="services-rows">
+                                                            <span v-for="service in booking.service_details">
+                                                                <div v-html="getServiceOptions(booking, service)"></div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div v-if="booking.services && booking.services.length > 0">
+                                                        <div class="services-rows">
+                                                            <span v-for="service in booking.services">
+                                                            <small v-for="extra in service.extras" v-if="extra.service_id === service.id"> {{ extra.quantity }} {{ extra.name }} </small>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <div class="summery-amount">
-                                        <span class="s-amount">
-                                            <p>Total time:</p>
-                                            <span>{{ booking.duration | duration }}</span>
-                                        </span>
-                                        <span class="s-amount">
-                                            <p>Discount:</p>
-                                            <span>{{ $currency }}{{ booking.charge.discounts }} </span>
-                                        </span>
-                                        <span class="s-amount">
-                                            <p>Tax:</p>
-                                            <span>{{ $currency }}{{ booking.charge.tax_amount }} </span>
-                                        </span>
-                                        <!-- <small>Total time: <strong style="color: #1fb6ff"> {{ booking.duration | duration }} </strong></small>
-                                        <small>Discount: <strong style="color: #1fb6ff"> {{ $currency }}{{ booking.charge.discounts }} </strong></small>
-                                        <small>Tax: <strong style="color: #1fb6ff">{{ $currency }}{{ booking.charge.tax_amount }} </strong></small> -->
-                                    </div>
-
                                     <div>
-                                        <!-- <div v-if="!booking.team_assignments || booking.team_assignments.length == 0">
+                                        <div v-if="!booking.team_assignments || booking.team_assignments.length == 0">
                                             <small>No Team Assigned</small>
                                             <el-button @click="assignTeam(booking)" size="mini" type="text">
                                                 Assign a team
                                             </el-button>
-                                        </div> -->
+                                        </div>
                                         <div v-if="booking.team_assignments && booking.team_assignments.length > 0">
                                             <account-avatar :account="booking.team_assignments[0].team" body-class="pull-left"></account-avatar>
                                             <el-popover
@@ -237,6 +243,24 @@
                                             </el-popover>
                                         </div>
                                     </div>
+                                    <div class="summery-amount">
+                                        <span class="s-amount">
+                                            <p>Total time:</p>
+                                            <span>{{ booking.duration | duration }}</span>
+                                        </span>
+                                        <span class="s-amount">
+                                            <p>Discount:</p>
+                                            <span>{{ $currency }}{{ booking.charge.discounts }} </span>
+                                        </span>
+                                        <span class="s-amount">
+                                            <p>Tax:</p>
+                                            <span>{{ $currency }}{{ booking.charge.tax_amount }} </span>
+                                        </span>
+                                        <!-- <small>Total time: <strong style="color: #1fb6ff"> {{ booking.duration | duration }} </strong></small>
+                                        <small>Discount: <strong style="color: #1fb6ff"> {{ $currency }}{{ booking.charge.discounts }} </strong></small>
+                                        <small>Tax: <strong style="color: #1fb6ff">{{ $currency }}{{ booking.charge.tax_amount }} </strong></small> -->
+                                    </div>
+
                                     <div>
                                     <div v-if="booking.payment_type === 'card'">
                                         <div v-if="booking.charge.card" style="min-width: 150px; padding-top: 15px">
@@ -253,14 +277,14 @@
                                             <el-link style="font-size: 10px!important; margin-top: 5px; margin-left: 15px;" type="primary" size="mini" @click="chooseCard(booking)">(change default card)</el-link>
                                         </div>
                                         <div v-else>
-                                            <p>No default card found for this booking.</p>
+                                            <p style="margin:0">No default card found for this booking.</p>
                                             <el-link style="font-size: 11px" type="danger" size="mini" @click="chooseCard(booking)">(choose card)</el-link>
                                         </div>
                                         </div>
 
-                                        <div v-if="booking.payment_type !== 'card'">
+                                        <!-- <div v-if="booking.payment_type !== 'card'">
                                             {{ booking.payment_type }}
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <div style="text-align: end;">
@@ -268,7 +292,7 @@
                                         <small><strong style="font-size:16px;font-weight: 600;">{{ $currency }}{{ booking.charge.total_after_tax }}</strong></small>
                                         <small>Paid: {{ $currency }}{{ booking.charge.total_payments }}</small> -->
                                         <el-button class="is-round" v-if="booking.payment_type === 'card' && !booking.onhold_payment" :disabled="booking.charge.outstanding === 0" type="danger" size="mini" @click="putChargeOnHold(booking.charge, booking)" style="width: 160px; padding: 10px;">Put on Hold</el-button>
-                                        <el-button class="is-round" v-if="booking.payment_type !== 'card' && !booking.onhold_payment" type="success" size="mini" plain @click="addManualPayment(booking, 'add')" style="width: 160px; padding: 10px;">Mark as Paid</el-button>
+                                        <el-button class="is-round" v-if="booking.payment_type !== 'card' && !booking.onhold_payment" type="success" size="mini" plain @click="addManualPayment(booking, 'add')" style="width: 160px; padding: 10px; border-color: #0dce0c8a;">Mark as Paid</el-button>
 
                                      <div v-if="booking.payment_type === 'card'">
                                         <div class="booking-charge-card" style="margin-top: 10px;" v-if="booking.payment_type === 'card' && !(booking.onhold_payment)">
@@ -301,8 +325,8 @@
                                            </el-button>
                                        </div>-->
                                 </div>
-                                <el-row style="margin: 10px 0px 10px 25px;">
-                                    <!-- <el-col :sm="12">
+                                <!-- <el-row style="margin: 10px 0px 10px 25px;">
+                                    <el-col :sm="12">
                                         <div v-if="booking.service_details && booking.service_details.length > 0">
                                             <div class="services-rows">
                                         <span v-for="service in booking.service_details">
@@ -319,7 +343,7 @@
                                             </span>
                                             </div>
                                         </div>
-                                    </el-col> -->
+                                    </el-col>  -->
                                     <!-- <el-col :sm="12" style="text-align: right" v-if="booking.payment_type === 'card'">
                                         <div class="booking-charge-card" style="margin-top: 10px;" v-if="booking.payment_type === 'card' && !(booking.onhold_payment)">
                                             <el-divider>Charge booking</el-divider>
@@ -336,10 +360,10 @@
                                             </div>
                                         </div>
 
-                                    </el-col> -->
+                                    </el-col>
                                 </el-row>
                             </el-card>
-                            <!-- <div @click="showDetail(booking)" class="action-btn" style="display: inline-block">
+                             <div @click="showDetail(booking)" class="action-btn" style="display: inline-block">
                                  <i class="el-icon-arrow-right"> </i>
                              </div>-->
                         </el-timeline-item>
@@ -826,7 +850,7 @@
                             });
 
                             if (pvv) {
-                                if (pvv.quantity) content += "<small>" + pvv.quantity + "x " + full_service.pricing_variables[x].name + "</small>";
+                                if (pvv.quantity) content += "<small class='service-title'  style='display: inline-block; font-size: 12px;font-weight: 800;color: #909399;margin-right: 10px'>" + pvv.quantity + "  " + full_service.pricing_variables[x].name + "</small>";
                                 else {
                                     if (full_service.pricing_variables[x].prices) {
                                         let price = full_service.pricing_variables[x].prices.find(price => {
@@ -834,11 +858,11 @@
                                         });
 
                                         if (price)
-                                            content += "<small>" + full_service.pricing_variables[x].name + " : " + (price.label || price.max_qty + " - " + price.min_qty) + "</small>";
+                                            content += "<small class='service-title' style='display: inline-block; font-size: 12px;font-weight: 800;color: #909399;margin-right: 10px'>" + full_service.pricing_variables[x].name + " : " + (price.label || price.max_qty + " - " + price.min_qty) + "</small>";
                                         else
-                                            content += "<small>" + full_service.pricing_variables[x].name
+                                            content += "<small class='service-title'  style='display: inline-block; font-size: 12px;font-weight: 800;color: #909399;margin-right: 10px'>" + full_service.pricing_variables[x].name
                                     } else {
-                                        content += "<small>" + full_service.pricing_variables[x].name
+                                        content += "<small class='service-title'  style='display: inline-block; font-size: 12px;font-weight: 800;color: #909399;margin-right: 10px'>" + full_service.pricing_variables[x].name
                                     }
 
                                 }
@@ -1076,6 +1100,40 @@
                     }
                   }
                 }
+                .name-address {
+                  display: inline-block;
+                    span {
+                    font-size: 12px;
+                        &.p-name {
+                        margin-left: 15px;
+                        }
+                        &.p-address {
+                        margin-left: 25px; 
+                        }
+                    }
+                }
+                .time-and-services {
+                    margin: 10px 0px 0px 30px;
+                    .time-frequency {
+                        display: inline-block;
+                        small {
+                        font-size: 14px;
+                        }
+                    }
+                    .b-services {
+                        display: inline-block;
+                        margin-left: 25px;
+                        margin-top: 0;
+                        position: absolute;
+                    }
+                    span.service-title {
+                        display: inline-block; 
+                        font-size: 12px;
+                        font-weight: 800;
+                        color: #909399;
+                        margin-right: 10px;
+                    }
+                }
             }
 
             .charge-headline {
@@ -1266,8 +1324,8 @@
         }
 
         .charge-item-card-details {
-            width: calc(100% - 70px);
-            display: inline-block;
+            // width: calc(100% - 70px);
+            // display: inline-block;
 
             small {
                 font-size: 9px;

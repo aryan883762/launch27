@@ -18,16 +18,19 @@
                     <el-col :md="12" :sm="12" :xs="24" class="avatar-holder hidden-sm-and-down">
                         <ClockInOutMenu/>
 
-                        <el-button @click="$router.push({ name: 'dashboard_booking_new' })" plain round size="mini"
+                        <el-button @click="$router.push({ name: 'dashboard_booking_new' })" round size="mini"
                                    type="primary">
                             Book Now
                         </el-button>
-
+                        <!-- 
                         <el-button @click="$router.push({ name: 'dashboard_getting_started' })" class="last" round
                                    size="mini" type="primary">
                             Get Started
-                        </el-button>
-
+                        </el-button> -->
+                        <a type="button" class="last el-button--mini" @click="$router.push({ name: 'dashboard_getting_started' })">
+                           <span style="border-bottom: 1px solid #cccccd87; color: #afb0b2;">
+                               Get Started</span>
+                        </a>
                         <!-- <el-popover
                            placement="bottom-end"
                            trigger="hover"
@@ -128,7 +131,7 @@
     import {Notification} from 'element-ui'
     import MigrationBanner from "../../components/MigrationBanner";
     import TrialUpdate from "../../components/TrialUpdate";
-
+    window.jQuery = window.jquery = window.$ = require("jquery");
 
     export default {
         components: {
@@ -222,6 +225,8 @@
                 name: "dashboard_settings_account",
                 query: {tab: "plan"}
             }]);
+
+
         },
 
         watch: {
@@ -233,6 +238,16 @@
                 }
 
                 this.breadcrumbs = this.$route.meta.breadcrumbs;
+            $('input[placeholder="Start date"]').click(function(){
+                console.log('strt-clicked');
+                $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
+                $('.el-date-range-picker__content.is-right').attr('style', 'display: none !important');
+            })
+            $('input[placeholder="End date"]').click(function(){
+                  console.log('end-clicked');
+                $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
+                $('.el-date-range-picker__content.is-left').attr('style', 'display: none !important');
+            })
             }
         },
 
