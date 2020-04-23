@@ -131,7 +131,6 @@
     import {Notification} from 'element-ui'
     import MigrationBanner from "../../components/MigrationBanner";
     import TrialUpdate from "../../components/TrialUpdate";
-    window.jQuery = window.jquery = window.$ = require("jquery");
 
     export default {
         components: {
@@ -238,16 +237,6 @@
                 }
 
                 this.breadcrumbs = this.$route.meta.breadcrumbs;
-            $('input[placeholder="Start date"]').click(function(){
-                console.log('strt-clicked');
-                $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
-                $('.el-date-range-picker__content.is-right').attr('style', 'display: none !important');
-            })
-            $('input[placeholder="End date"]').click(function(){
-                  console.log('end-clicked');
-                $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
-                $('.el-date-range-picker__content.is-left').attr('style', 'display: none !important');
-            })
             }
         },
 

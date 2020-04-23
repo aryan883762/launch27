@@ -46,6 +46,7 @@
                                 :format="dt_format"
                                 end-placeholder="End date"
                                 range-separator="to"
+                                unlink-panels="false"
                                 size="small" start-placeholder="Start date" type="daterange" v-model="range"
                         />
                     </div>

@@ -17,7 +17,7 @@
 <script>
 
     import {initializeFirebase} from "./pushNotification";
-
+    window.jQuery = window.jquery = window.$ = require("jquery");
     export default {
         name: "App",
         components: {
@@ -49,8 +49,6 @@
                 this.refreshing = true;
                 window.location.reload();
             });
-
-
         },
 
         methods: {
@@ -97,6 +95,21 @@
                 }
                 this.registration.waiting.postMessage('skipWaiting');
             },
+        },
+        mounted(){
+            setInterval(()=>{
+              if(document.querySelector('input[placeholder="Start date"]')) {
+                document.querySelector('input[placeholder="Start date"]').addEventListener('click', function() {
+                    $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
+                    $('.el-date-range-picker__content.is-right').attr('style', 'display: none !important');
+                });
+                document.querySelector('input[placeholder="End date"]').addEventListener('click', function() {
+                    $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
+                    $('.el-date-range-picker__content.is-left').attr('style', 'display: none !important');
+                });
+              }
+            },100)
+      
         }
     };
 </script>

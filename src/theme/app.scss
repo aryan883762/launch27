@@ -568,6 +568,9 @@ body {
 .el-date-range-picker {
   width: 300px !important;
 }
+.el-date-editor.el-range-editor.el-input__inner.el-date-editor--daterange {
+  width: 300px !important;
+}
 .el-date-range-picker__content{
   width: 59% !important;
 }

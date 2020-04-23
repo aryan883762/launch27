@@ -93,15 +93,6 @@ let app = new Vue({
         window.localStorage.removeItem('active-company');
 
         this.$events.addListener('track-page', this.trackPage);
-        $('input[placeholder="Start date"]').click(function(){
-            console.log('event');
-              $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
-              $('.el-date-range-picker__content.is-right').attr('style', 'display: none !important');
-          })
-          $('input[placeholder="End date"]').click(function(){
-              $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
-              $('.el-date-range-picker__content.is-left').attr('style', 'display: none !important');
-          })
     },
     methods: {
         getHeaders() {
@@ -163,17 +154,6 @@ let app = new Vue({
                     })
             })
         }
-    },
-    mounted() {
-        $('input[placeholder="Start date"]').click(function(){
-          console.log('event');
-            $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
-            $('.el-date-range-picker__content.is-right').attr('style', 'display: none !important');
-        })
-        $('input[placeholder="End date"]').click(function(){
-            $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
-            $('.el-date-range-picker__content.is-left').attr('style', 'display: none !important');
-        })
     },
     render: h => h(App)
 }).$mount('#app')

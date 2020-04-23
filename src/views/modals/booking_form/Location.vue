@@ -44,7 +44,7 @@
                                               v-model="model.address.street"></el-input>
                                 </el-col>
                                 <el-col :sm="6">
-                                    <el-input :disabled="!!(model.address.id)" placeholder="Apartment"
+                                    <el-input :disabled="!!(model.address.id)" placeholder="Unit Number"
                                               v-model="model.address.apartment"></el-input>
                                 </el-col>
                                 <el-col>
