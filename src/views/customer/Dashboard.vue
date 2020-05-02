@@ -8,28 +8,22 @@
 
     <el-row class="setting-row padding-2x" :gutter="10">
       <el-card class="cd-one-line-card">
-        <el-col :sm="7" :xs="12" :md="7">
+        <el-col :sm="8" :xs="12" :md="8">
           <h5 class="flex-row-center top-summary">
             <img svg-inline src="@/assets/svgs/cus-dashboard/next-appointment.svg" />
             Next Appointment: {{ nextBooking }}
           </h5>
         </el-col>
-        <el-col :sm="7" :xs="12" :md="7">
+        <el-col :sm="8" :xs="12" :md="8">
           <h5 class="flex-row-center top-summary">
             <img svg-inline src="@/assets/svgs/cus-dashboard/team.svg" />
             Team: {{ nextBookingTeam }}
           </h5>
         </el-col>
-        <el-col :sm="5" :xs="12" :md="5">
+        <el-col :sm="8" :xs="12" :md="8">
           <h5 class="flex-row-center top-summary">
             <img svg-inline src="@/assets/svgs/cus-dashboard/credit-balance.svg" />
             Credit Balance: {{ $currency }}{{ wallet }}
-          </h5>
-        </el-col>
-        <el-col :sm="5" :xs="12" :md="5">
-          <h5 class="flex-row-center top-summary">
-            <img svg-inline src="@/assets/svgs/cus-dashboard/gift-card-balance.svg" />
-            Gift Card Balance: {{ $currency }}{{balance}}
           </h5>
         </el-col>
       </el-card>
@@ -153,7 +147,6 @@ export default {
   data: () => {
     return {
         curr_user:{},
-        balance: 0.00,
         wallet: 0.00,
         schedule: [],
         next_team: "None",
@@ -192,32 +185,21 @@ export default {
       this.curr_user = this.$auth.user();
   },
   mounted(){
-      this.loadGiftCards();
       this.loadSchedules();
       this.loadWallet();
   },
   methods: {
     loadWallet(){
-      this.axios.get('/accounts/me/wallet')
+      this.axios.get('/wallets/balance_summary', 
+        {
+          params: {
+            accountId: this.$auth.user().id
+          }
+        }
+      )
       .then(res=>{
-        this.wallet = res.data.amount;
+        this.wallet = res.data.total;
       })
-      .catch(err => {
-        console.log(err);
-      })
-    },
-    loadGiftCards() {
-        // looking for the user's giftcard that are for the current company
-        this.axios
-            .get('/companies/current/giftCards', {params: {filter: {where: {recipientAccountId: this.$auth.user().id}}}})
-            .then(res => {
-                res.data.forEach(gift_card => {
-                    this.balance += gift_card.balance
-                });
-            })
-            .then(() => {
-                this.loading = false;
-            });
     },
     loadSchedules() {
       let startDate = this.$moment().toISOString();

@@ -92,7 +92,7 @@ let app = new Vue({
         // we remove it, it will then be set by subdomain plugin or vue-auth
         window.localStorage.removeItem('active-company');
 
-        this.$events.addListener('track-page', this.trackPage);
+        this.$events.addListener('track-page', this.trackPage)
     },
     methods: {
         getHeaders() {
@@ -155,6 +155,7 @@ let app = new Vue({
             })
         }
     },
+
     render: h => h(App)
 }).$mount('#app')
 

@@ -21,8 +21,8 @@
     
         <template v-if="item.children && item.children.length">
             <template v-if="currentItem.sortable">
-                <draggable :list="sortable.list" class="sortable-wrapper" handle=".component-sort-handle" ghost-class="ghost" @end="onSortableEnd">
-                    <div class="sortable-child" v-for="(child, childIndex) in sortedChildren">
+                <draggable :list="sortable.list" class="sortable-wrapper 4" handle=".component-sort-handle" ghost-class="ghost" @end="onSortableEnd">
+                    <div class="sortable-child 3" v-for="(child, childIndex) in sortedChildren">
                         <form-component :child-index="childIndex" :parent="item" :custom-fields-layout="currentItem.type == 'customFields' ? item : customFieldsLayout" :editor-mode="editorMode" :key="getSortableItemKey(child)" :item.sync="child" :layout.sync="layout" :overrides.sync="overrides" :template.sync="template" />
                     </div>
                 </draggable>

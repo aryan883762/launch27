@@ -38,6 +38,12 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :sm="8">
+                                            <el-form-item label="Apartment" prop="apartment">
+                                                <el-input name="apartment" placeholder="Apartment"
+                                                          v-model="model.address.apartment"/>
+                                            </el-form-item>
+                                        </el-col>
+                                        <el-col :sm="8">
                                             <el-form-item label="City" prop="city">
                                                 <el-input name="city" placeholder="City" v-model="model.address.city"/>
                                             </el-form-item>
@@ -52,7 +58,7 @@
                                                 <el-input name="zip" placeholder="Zip" v-model="model.address.zip"/>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :sm="12">
+                                        <el-col :sm="8">
                                             <el-form-item label="Phone" prop="phone">
                                                 <el-input name="phone" type="tel" v-model="model.address.phone">
                                                     <span slot="prepend">{{ $auth.user().country.emoji }} +{{ $auth.user().country.phone }}</span>
@@ -78,11 +84,17 @@
             <div class="border-shadow bg-white address-box" :key="address.id"
                  v-for="(address, index) in accountAddresses">
                 <el-row>
-                    <el-col :md="24" class="address-box-street-address-wrap">
-                        <span class="address-box-content-title"> Street <el-tag class="default-address pull-right"
-                                                                                type="success" v-if="address.default">Default Address</el-tag> </span>
+                    <el-col :md="16" class="address-box-street-address-wrap">
+                        <span class="address-box-content-title"> Street </span>
                         <span class="address-box-street address-box-content-body">
                     {{ address.street }}
+                    </span>
+                    </el-col>
+                    <el-col :md="8" class="address-box-street-address-wrap">
+                        <span class="address-box-content-title"> Apartment <el-tag class="default-address pull-right"
+                                                                                type="success" v-if="address.default">Default Address</el-tag> </span>
+                        <span class="address-box-street address-box-content-body">
+                    {{ address.apartment }}
                     </span>
                     </el-col>
                     <el-col :md="8">
@@ -217,7 +229,13 @@
         },
         computed: {
             arrayCoordinates() {
-                return [this.model.address.coordinates.lng, this.model.address.coordinates.lat];
+                if(this.model.address.coordinates){
+                    return [this.model.address.coordinates.lng, this.model.address.coordinates.lat];
+                } else if (this.$auth.user().company.coordinates){
+                    return [this.$auth.user().company.coordinates.lng, this.$auth.user().company.coordinates.lat];
+                } else {
+                    return [0, 0];
+                }
             }
         },
         created() {
@@ -284,6 +302,7 @@
                         city: '',
                         state: '',
                         zip: '',
+                        apartment: '',
                         coordinates: this.$auth.user().company.coordinates,
                         accountId: this.$auth.user().id
                     }

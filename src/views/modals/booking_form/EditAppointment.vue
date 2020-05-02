@@ -150,29 +150,6 @@
                     });
                 }
                 return data;
-            },
-            finalDataModal() {
-
-                let data = {...this.booking, ...this.dataModel};
-
-                if (!data.service_options) {
-                    data.service_options = this.booking.meta.service_options
-                }
-
-                if (!data.extras) {
-                    data.extras = this.booking.meta.extras
-                }
-
-                if (!data.tip && data.tip !== 0) {
-                    data.tip = this.booking.charge.tip
-                }
-
-                if (!data.adjustment && data.adjustment !== 0) {
-                    data.adjustment = this.booking.charge.adjustment
-                }
-
-                //convert data to booking format
-                return helper.prepareBookingData(data, this.company_services);
             }
         },
 
@@ -241,7 +218,7 @@
             },
             getEstimatedPrice() {
 
-                let data = JSON.parse(JSON.stringify(this.finalDataModal))
+                let data = JSON.parse(JSON.stringify(this.finalDataModal()))
 
                 if (!data.service_options) {
                     data.service_options = this.booking.meta.service_options
@@ -407,7 +384,7 @@
 
             updateBooking(cb) {
                 // merge booking data && this.dataModel
-                let data = this.finalDataModal
+                let data = this.finalDataModal()
 
                 if (!data.service_options) {
                     data.service_options = this.booking.meta.service_options
@@ -449,6 +426,29 @@
                     })
             },
 
+            finalDataModal() {
+
+                let data = {...this.booking, ...this.dataModel};
+
+                if (!data.service_options) {
+                    data.service_options = this.booking.meta.service_options
+                }
+
+                if (!data.extras) {
+                    data.extras = this.booking.meta.extras
+                }
+
+                if (!data.tip && data.tip !== 0) {
+                    data.tip = this.booking.charge.tip
+                }
+
+                if (!data.adjustment && data.adjustment !== 0) {
+                    data.adjustment = this.booking.charge.adjustment
+                }
+
+                //convert data to booking format
+                return helper.prepareBookingData(data, this.company_services);
+            }
         }
     }
 </script>

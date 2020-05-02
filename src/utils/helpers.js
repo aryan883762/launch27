@@ -247,4 +247,12 @@ export default {
             // code block
         }
     },
+    sideMenuCollapse(isCollapse) {
+        let mainElement = $('.page.dashboard.layout .mega-content-layer');
+        if(!isCollapse){
+            mainElement.animate({'margin-left':'200px'}); 
+        }else {
+            mainElement.animate({'margin-left':'65px'}); 
+        }
+    }   
 }

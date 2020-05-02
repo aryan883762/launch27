@@ -36,7 +36,7 @@
       </el-card>
 
       <el-container>
-        <side-menu class="hidden-sm-and-down side-menu-container" />
+        <side-menu class="side-menu-container" />
         <el-main class="content mega-content-layer">
           <!-- <warning-message></warning-message>-->
 
@@ -84,6 +84,7 @@ export default {
   
   created() {
     this.breadcrumbs = this.$route.meta.breadcrumbs;
+    this.$$setTheme.setTheme(this.$auth.user().company.main_color, '#1fb6ff')
   },
 
   methods: {

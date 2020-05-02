@@ -366,9 +366,12 @@
                             valid = await this.validate(this.stepRefs[x])
                             if (!valid) {
                                 this.$nextTick(() => {
-                                    $('.fullscreen-modal-display:first').animate({
-                                        scrollTop: $(".el-form-item.is-error:first").offset().top
-                                    }, 2000);
+                                   let  elem = document.querySelector('.el-form-item.is-error')
+                                        elem.scrollIntoView({behavior: "smooth", block: "center"});
+                                    // $('.fullscreen-modal-display:first').animate({
+                                    //     scrollTop: $(".el-form-item.is-error:first").offset().top
+                                    // }, 2000);
+                                   
                                 })
                                 break;
                             }

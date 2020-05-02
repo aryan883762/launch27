@@ -24,8 +24,31 @@
 @import "elements/el-rate.scss";
 @import "elements/el-dropdown.scss";
 
+:root {
+  --primary-color: #1fb6ff;
+}
+.el-button--primary.is-disabled, .el-button--primary.is-disabled:active, .el-button--primary.is-disabled:focus, .el-button--primary.is-disabled:hover {
+  background-color: var(--primary-color)!important;
+  border-color: var(--primary-color)!important;
+  opacity: 0.7!important;
+}
+button.el-button--primary {
+  background-color: var(--primary-color)!important;
+  border-color: var(--primary-color)!important;
+}
+button.el-button--primary.is-plain {
+  color: var(--primary-color)!important;
+}
+.el-button--primary:focus, .el-button--primary:hover{
+  background-color: var(--primary-color)!important;
+  border-color: var(--primary-color)!important;
+  opacity: 0.9;
+}
+
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
+  
 }
 
 .mapboxgl-ctrl-logo {
@@ -565,19 +588,26 @@ body {
 .el-rate__icon {
   font-size: 13px !important;
 }
-.el-date-range-picker {
-  width: 300px !important;
+
+.el-range-editor--small .el-range-input {
+  font-size: 12px !important;
 }
+
 .el-date-editor.el-range-editor.el-input__inner.el-date-editor--daterange {
-  width: 300px !important;
+  width: 220px !important;
 }
-.el-date-range-picker__content{
-  width: 59% !important;
+
+@media screen and (max-width: 767px) {
+  .el-date-range-picker {
+    width: 300px !important;
+  }
+  .el-date-range-picker__content{
+    width: 59% !important;
+  }
+  .el-date-range-picker__content.is-left, .el-date-range-picker__content.is-right {
+    display: none;
+  }
 }
-.el-date-range-picker__content.is-left, .el-date-range-picker__content.is-right {
-  display: none;
-}
- 
 
 
 @import "responsive/index";

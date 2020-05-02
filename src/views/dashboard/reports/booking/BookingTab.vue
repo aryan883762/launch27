@@ -25,10 +25,16 @@
 
             <el-col :xs="24" :sm="12" :md="12">
                 <el-card style="margin: 20px;">
+                    <total-sales-by-booking-extra :bookings.sync="bookings" :loading.sync="loading"></total-sales-by-booking-extra>
+                </el-card>
+            </el-col>
+
+            <!-- <el-col :xs="24" :sm="12" :md="12">
+                <el-card style="margin: 20px;">
                     <forecasted-bookings :bookings.sync="forecast_bookings" :loading.sync="loading"></forecasted-bookings>
                     <span style="color:red;">* This does not include cancelled bookings</span>
                 </el-card>
-            </el-col>
+            </el-col> -->
 
             <!-- <el-col :xs="24" :sm="12" :md="12">
                 <el-card style="margin: 20px;">
@@ -74,6 +80,7 @@
     import NewBookings from './NewBookings.vue'
     import ForecastedBookings from './ForecastedBookings.vue'
     import Frequency from './Frequency.vue'
+    import TotalSalesByBookingExtra from '../money/SalesByBookingExtra'
 
     // import RecurringBookings from './RecurringBookings.vue'
     // import TotalVisitorsVsBooking from './TotalVisitorsVsBooking.vue'
@@ -88,6 +95,7 @@
             NewBookings,
             ForecastedBookings,
             Frequency,
+            TotalSalesByBookingExtra,
             // RecurringBookings,
             // TotalVisitorsVsBooking,
             // BookingFormConversion,

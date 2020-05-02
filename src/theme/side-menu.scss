@@ -1,0 +1,92 @@
+.el-menu-vertical:not(.el-menu--collapse) {
+    width: 200px;
+  }
+    .side-menu-card {
+        // min-width: 200px;
+        border-radius: 0px !important;
+
+        border-top: none !important;
+        border-bottom: none !important;
+
+        .el-card__body {
+            padding: 0px;
+            height: calc(100%);
+        }
+
+        .component-side-menu {
+            height: calc(100%);
+
+            .el-menu {
+                border: none;
+
+                .el-menu-item {
+                    .el-tooltip {
+                        padding: unset!important;
+                    }
+                    >span {
+                        display: none;
+                    }
+                    padding: 0 !important;
+                    @include rem(height, 45px);
+
+                    vertical-align: -webkit-baseline-middle;
+                    &:hover {
+                      background-color: var(--primary-light-color)!important;
+                    }
+                    a {
+                        @include rem(height, 45px);
+                        @include rem(line-height, 45px);
+                        padding-left: 20px;
+                        display: block;
+                        color: black;
+                        &.collapse-true {
+                            svg{
+                           transform: rotate(180deg);
+                           -ms-transform: rotate(180deg);
+                           -moz-transform: rotate(180deg);
+                           -webkit-transform: rotate(180deg);
+                           -o-transform: rotate(180deg);
+                            }
+                        }
+                    }
+
+                    svg {
+                        width: 18px;
+                        height: auto;
+                        margin-right: 19px;
+                        display: inline-block;
+                        position: relative;
+                        outline: none;
+                    }
+                    span {
+                        font-weight: 400;
+                        @include rem(font-size, 12px);
+
+                    }
+
+                    border-right: 4px solid transparent;
+
+                    a.router-link-exact-active {
+
+                        background-color: var(--primary-light-color);
+                        border-right: 4px solid var(--primary-color);
+
+                        span {
+                            font-weight: 500;
+                        }
+
+                        a {
+                            color: var(--primary-color);
+                        }
+
+                        svg {
+                            path {
+                                fill: var(--primary-color);
+                                stroke: #333;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }

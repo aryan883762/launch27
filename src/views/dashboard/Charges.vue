@@ -40,8 +40,8 @@
 
         <el-card style="border:none; margin-bottom: 5px;">
             <el-row>
-                <el-col class="bg-white text-center">
-                    <div class="pull-left main-filters">
+                <el-col class="bg-white">
+                    <div class="main-filters">
                         <el-date-picker
                                 :format="dt_format"
                                 end-placeholder="End date"
@@ -49,9 +49,9 @@
                                 unlink-panels="false"
                                 size="small" start-placeholder="Start date" type="daterange" v-model="range"
                         />
-                    </div>
+                    <!-- </div>
 
-                    <div class="pull-right main-filters">
+                    <div class="pull-right main-filters"> -->
 
                         <!--
                             <el-dropdown :disabled="checkedCharges.length === 0" @command="actionCommand" size="mini" style="margin-right: 10px;" type="primary">
@@ -64,33 +64,31 @@
                                 </el-dropdown-menu>
                             </el-dropdown>
                         -->
+                        <company-locations @change="loadCharges(1)"  :multiple="true" :return-object="false" v-model="filter_location" additional-class="filter small pull-right loc"></company-locations>
 
-                        <el-select class="filter small" style="margin-right: 10px;" multiple collapse-tags v-model="filter_payment_type" @change="loadCharges(1)">
-                            <el-option label="Card" value="card"></el-option>
-                            <el-option label="Cash" value="cash"></el-option>
-                            <el-option label="Check/Cheque" value="check"></el-option>
-                        </el-select>
+                        <team-select v-model="filter_team" :multiple="true" style="margin-right:10px;width:150px " class="filter small pull-right" v-if="$can('manage', 'role_admin') || $can('manage', 'role_team')"
+                                     :collapse-tags="true" @change="loadCharges" :show-add-teams="false"></team-select>
 
-                        <company-locations @change="loadCharges(1)" additional-class="pull-right" :multiple="true" :return-object="false" v-model="filter_location"></company-locations>
-
-                        <el-select @change="loadCharges()" class="small filter"
-                                   style="margin-right: 5px;" v-model="bookings_filter">
-                            <el-option label="Active Bookings" value="active"></el-option>
-                            <el-option label="Recurring Bookings" value="recurring"></el-option>
-                            <el-option label="Completed Bookings" value="completed"></el-option>
-                            <el-option label="Cancelled Bookings" value="cancelled"></el-option>
-                        </el-select>
-
-                        <el-select class="filter small" placeholder="On hold,paid" @change="loadCharges()" multiple collapse-tags v-model="filter_payment_status">
+                        <el-select class="filter small pull-right" placeholder="On hold,paid" @change="loadCharges()" multiple collapse-tags v-model="filter_payment_status">
                             <el-option label="On Hold" value="hold"></el-option>
                             <el-option label="Paid" value="paid"></el-option>
                             <el-option label="Unpaid" value="unpaid"></el-option>
                             <el-option label="Refunded" value="refunded"></el-option>
                         </el-select>
 
-                        <team-select v-model="filter_team" :multiple="true" style="margin-right:10px;" additional-class="filter small" v-if="$can('manage', 'role_admin') || $can('manage', 'role_team')"
-                                     :collapse-tags="true" @change="loadCharges" :show-add-teams="false"></team-select>
+                        <el-select @change="loadCharges()" class="small filter pull-right"
+                                   style="margin-right: 10px;" v-model="bookings_filter">
+                            <el-option label="Active Bookings" value="active"></el-option>
+                            <el-option label="Recurring Bookings" value="recurring"></el-option>
+                            <el-option label="Completed Bookings" value="completed"></el-option>
+                            <el-option label="Cancelled Bookings" value="cancelled"></el-option>
+                        </el-select>
 
+                        <el-select class="filter small pull-right payment-type-filter" style="margin-right: 10px;" multiple collapse-tags v-model="filter_payment_type" @change="loadCharges(1)">
+                            <el-option label="Card" value="card"></el-option>
+                            <el-option label="Cash" value="cash"></el-option>
+                            <el-option label="Check/Cheque" value="check"></el-option>
+                        </el-select>
                     </div>
                 </el-col>
             </el-row>
@@ -134,10 +132,11 @@
                                             <p>{{booking.charge.billing_note}}</p>
                                         </blockquote>
                                         <i style="display:block; font-size:11px;" v-if="booking.charge.billing_note_author">{{booking.charge.billing_note_author.fullname}}</i>
+                                        <i style="display:block; font-size:11px;" v-if="booking.charge.billing_note_date">{{$moment(booking.charge.billing_note_date).format($date_format + ' ' + $time_format)}}</i>
                                         <el-link @click="addBillingNote(booking.charge)" size="mini" type="danger">Edit</el-link>
 
                                     </div>
-                                    <el-button size="mini" slot="reference" type="text" v-if="booking.charge.billing_note">
+                                    <el-button size="mini" slot="reference" type="text" v-show="booking.charge.billing_note">
                                         View Billing Note
                                     </el-button>
                                 </el-popover>
@@ -149,6 +148,10 @@
                                 <el-divider class="divider-mini" direction="vertical"/>
                                 <el-button @click="addManualPayment(booking, 'list')" size="mini" type="text">
                                     View Payments
+                                </el-button>
+                                <el-divider class="divider-mini" direction="vertical"/>
+                                <el-button @click="showDetail(booking)" size="mini" type="text">
+                                    View Appointment
                                 </el-button>
                                 <el-divider class="divider-mini" direction="vertical"/>
                                 <el-image :src="(booking.payment_type === 'card')?require(`@/assets/svgs/pay.svg`):require(`@/assets/svgs/money.svg`)" class="header-icon" fit="fit"></el-image>
@@ -173,36 +176,38 @@
                                         <el-checkbox :key="booking.charge.id">
                                             <!-- <router-link  style="font-weight:bold;color:#ff8602;text-decoration:underline;" :to="{  name: 'dashboard_booking_view', params: {id: booking.id, service_date: booking.service_date} }"> {{$moment(booking.service_date).format($date_format + ' ' + $time_format)}}</router-link> -->
                                         </el-checkbox>
-                                        <div class="name-address">
+                                        <!-- <div class="name-address">
                                         <span class="p-name">{{ booking.account.first_name }} {{ booking.account.last_name }}</span>
                                         <span class="p-address">{{ booking.address.street }} {{ booking.address.city }} {{ booking.address.state }} {{ booking.address.zip }}</span>
-                                        </div>
+                                        </div> -->
                                         
                                         <!-- <el-rate allow-half disabled style="margin-left: 25px;" v-if="booking.rating" v-model="booking.rating.rating"/>
                                         <el-rate disabled style="margin-left: 25px;" v-else></el-rate> -->
                                         <div class="time-and-services">
                                          <div>
                                             <div class="time-frequency">
-                                                <small><strong>{{$moment(booking.service_date).format($time_format)}}</strong></small>
+                                                <span class="p-name">{{ booking.account.first_name }} {{ booking.account.last_name }}</span>
+                                                <small class="mt-10"><strong>{{$moment(booking.service_date).format($time_format)}}</strong></small>
                                                 <small>{{$moment(booking.service_date).format('MMMM DD')}}</small>
                                                 <small>{{(booking.frequency)?booking.frequency.rule_id:''}}</small>
                                             </div>
-                                                <div class="b-services">
-                                                    <div v-if="booking.service_details && booking.service_details.length > 0">
-                                                        <div class="services-rows">
-                                                            <span v-for="service in booking.service_details">
-                                                                <div v-html="getServiceOptions(booking, service)"></div>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div v-if="booking.services && booking.services.length > 0">
-                                                        <div class="services-rows">
-                                                            <span v-for="service in booking.services">
-                                                            <small v-for="extra in service.extras" v-if="extra.service_id === service.id"> {{ extra.quantity }} {{ extra.name }} </small>
-                                                            </span>
-                                                        </div>
+                                            <div class="b-services">
+                                                <span class="p-address">{{ booking.address.street }} {{ booking.address.city }} {{ booking.address.state }} {{ booking.address.zip }}</span>
+                                                <div v-if="booking.service_details && booking.service_details.length > 0" class="mt-10">
+                                                    <div class="services-rows">
+                                                        <span v-for="service in booking.service_details">
+                                                            <div v-html="getServiceOptions(booking, service)"></div>
+                                                        </span>
                                                     </div>
                                                 </div>
+                                                <div v-if="booking.services && booking.services.length > 0">
+                                                    <div class="services-rows">
+                                                        <span v-for="service in booking.services">
+                                                        <small v-for="extra in service.extras" v-if="extra.service_id === service.id"> {{ extra.quantity }} {{ extra.name }} </small>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -222,14 +227,14 @@
                                                 <div class="team-popover-content">
                                                     <div style="margin-bottom: 10px;" v-for="assignment in booking.team_assignments">
                                                         <account-avatar :account="assignment.team" body-class="pull-left"></account-avatar>
-                                                        <div style="display:inline-block; width:calc(100% - 45px); margin-left: 10px;    min-width: 120px;">
+                                                        <div style="display:inline-block">
                                                             <small>{{ assignment.team.name }} </small>
                                                             <small style="display:block;"><strong> ({{assignment.pay_rate_type == 'percent' ? assignment.pay_rate + '%' : $currency + assignment.pay_rate}}) {{ getEarned(booking) }}</strong></small>
                                                             <el-rate disabled v-model="assignment.team.rating"></el-rate>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div slot="reference" style="display:inline-block; width:calc(100% - 45px); margin-left: 10px;    min-width: 120px;">
+                                                <div slot="reference" style="display:inline-block">
                                                     <div v-if="booking.team_assignments[0].team_model === 'team'">
                                                         <small>{{ booking.team_assignments[0].team.name }} <strong v-if="booking.team_assignments.length > 1"> (+{{booking.team_assignments.length - 1}}) </strong></small>
                                                         <el-rate disabled v-model="booking.team_assignments[0].team.rating"></el-rate>
@@ -278,8 +283,8 @@
                                             <el-link style="font-size: 10px!important; margin-top: 5px; margin-left: 15px;" type="primary" size="mini" @click="chooseCard(booking)">(change default card)</el-link>
                                         </div>
                                         <div v-else>
-                                            <p style="margin:0">No default card found for this booking.</p>
-                                            <el-link style="font-size: 11px" type="danger" size="mini" @click="chooseCard(booking)">(choose card)</el-link>
+                                            <p style="margin:0; font-size:12px; line-height:1">No default card found for this booking.</p>
+                                            <el-link style="font-size: 11px!important" type="danger" size="mini" @click="chooseCard(booking)">(choose card)</el-link>
                                         </div>
                                         </div>
 
@@ -298,7 +303,7 @@
                                      <div v-if="booking.payment_type === 'card'">
                                         <div class="booking-charge-card" style="margin-top: 10px;" v-if="booking.payment_type === 'card' && !(booking.onhold_payment)">
                                             <!-- <el-divider>Charge booking</el-divider> -->
-                                            <el-input type="number" placeholder="Enter Amount" v-model="booking.charge.outstanding" :min="0" class="currencyInput">
+                                            <el-input type="number" placeholder="Amount" v-model="booking.charge.outstanding" :min="0" class="currencyInput">
                                                 <!-- <span slot="prepend">{{$currency}}</span> -->
                                                 <el-button slot="append" size="mini" type="primary" class="chargeAmount" @click="chargeBooking(booking.charge, booking)">Charge</el-button>
                                             </el-input>
@@ -362,11 +367,11 @@
                                         </div>
 
                                     </el-col>
-                                </el-row>
+                                </el-row>-->
                             </el-card>
-                             <div @click="showDetail(booking)" class="action-btn" style="display: inline-block">
+                             <!-- <div @click="showDetail(booking)" class="action-btn" style="display: inline-block">
                                  <i class="el-icon-arrow-right"> </i>
-                             </div>-->
+                             </div> -->
                         </el-timeline-item>
                     </el-timeline>
                 </el-checkbox-group>
@@ -574,7 +579,7 @@
                     params.targetTypeId = this.filter_team;
                 }
 
-                params.include = ["rating", {"charge": ["card", "payments"]}, {"team_assignments": "team"}, "account", "address", {"service_details": "pricing_variables"},]
+                params.include = ["rating", {"charge": ["card", "payments", "billing_note_author"]}, {"team_assignments": "team"}, "account", "address", {"service_details": "pricing_variables"},]
 
                 params.payment_status = this.filter_payment_status
 
@@ -721,7 +726,8 @@
                     .then(({value}) => {
                         this.axios.patch('/charges/' + charge.id, {
                             billing_note: value,
-                            billing_note_accountId: this.$auth.user().id
+                            billing_note_accountId: this.$auth.user().id,
+                            billing_note_date: this.$moment().toISOString()
                         })
                             .then((res) => {
                                 this.loadCharges()
@@ -1033,7 +1039,13 @@
 
 <style lang="scss">
     .app-section.charges {
-
+        .mt-10 {
+            margin-top: 10px;
+        }
+        .chargeAmount {
+            width: 100%!important;
+            margin: 0 !important;
+        }
         .el-timeline {
             padding: 0px;
 
@@ -1068,7 +1080,7 @@
                 }
                 .booking-charge-card {
                     .currencyInput {
-                        width: 270px;
+                        width: 225px;
                         height: 34px;
                         input[type='number'] {
                         border-top-left-radius: 5px;
@@ -1085,7 +1097,11 @@
                 .summery-amount {
                    span {
                      &.s-amount {
-                         display: block;
+                         display: -webkit-box; 
+                         display: -moz-box;
+                         display: -ms-flexbox;
+                         display: -webkit-flex; 
+                         display: flex;
                          height: 18px;
                      span {
                          color: rgb(31, 182, 255);
@@ -1101,31 +1117,28 @@
                     }
                   }
                 }
-                .name-address {
-                  display: inline-block;
-                    span {
-                    font-size: 12px;
-                        &.p-name {
-                        margin-left: 15px;
-                        }
-                        &.p-address {
-                        margin-left: 25px; 
-                        }
-                    }
-                }
                 .time-and-services {
-                    margin: 10px 0px 0px 30px;
+                    // margin: 10px 0px 0px 30px;
+                    margin-left: 5px;
+                    display: inline-block;
+                    span.p-name, span.p-address {
+                        font-size: 12px
+                    }
                     .time-frequency {
                         display: inline-block;
+                        vertical-align: top;
+                        float: left;
+                        max-width: 190px;
                         small {
                         font-size: 14px;
                         }
                     }
                     .b-services {
                         display: inline-block;
+                        vertical-align: top;
                         margin-left: 25px;
                         margin-top: 0;
-                        position: absolute;
+                        max-width: 260px
                     }
                     span.service-title {
                         display: inline-block; 
@@ -1275,6 +1288,14 @@
 
             .filter {
                 margin-right: 10px;
+            }
+            .loc {
+                min-width: unset!important;
+            }
+            @media only screen and (max-width: 1133px) {
+                .payment-type-filter {
+                    top: 10px;
+                }
             }
         }
 

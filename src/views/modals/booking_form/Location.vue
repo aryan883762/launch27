@@ -1,5 +1,5 @@
 <template>
-    <el-form :model="model" :rules="rules" autocomplete="nope" label-position="top" ref="form" v-loading="loading">
+    <el-form :model="model" :rules="rules" class="contact-form" autocomplete="nope" label-position="top" ref="form" v-loading="loading">
 
         <el-row :gutter="40">
             <el-col :md="24" :sm="24">
@@ -21,6 +21,11 @@
                     </el-col>
                     <el-col :sm="24">
                         <el-form-item prop="address">
+                             <el-row>
+                                <el-col :sm="24">
+                                    <span style="color:#f56c6c; font-size:12px">*Note: Phone, Street, City, State, Zip are required.</span>
+                                </el-col>
+                            </el-row>
                             <el-row :gutter="10">
                                 <!--<el-col :sm="24" v-if="is_new">
                                     <el-form-item label="Enter your address" prop="auto_address">
@@ -35,13 +40,13 @@
 
                                 <el-col>
                                     <el-input placeholder="Phone" type="tel"
-                                              v-model="model.address.phone"></el-input>
+                                              v-model="model.address.phone" :class="{'error':!(model.address.phone)}"></el-input>
                                 </el-col>
                                 <br/>
 
                                 <el-col :sm="18">
                                     <el-input :disabled="!!(model.address.id)" placeholder="Street"
-                                              v-model="model.address.street"></el-input>
+                                              v-model="model.address.street" :class="{'error':!(model.address.street)}"></el-input>
                                 </el-col>
                                 <el-col :sm="6">
                                     <el-input :disabled="!!(model.address.id)" placeholder="Unit Number"
@@ -49,14 +54,15 @@
                                 </el-col>
                                 <el-col>
                                     <el-input :disabled="!!(model.address.id)" placeholder="City"
-                                              v-model="model.address.city"></el-input>
+                                              v-model="model.address.city" :class="{'error':!(model.address.city)}"></el-input>
                                 </el-col>
                                 <el-col :sm="12">
-                                    <country-states :label="false" :disabled="!!(model.address.id)" v-model="model.address.state"></country-states>
+                                    <country-states :label="false" :disabled="!!(model.address.id)" 
+                                                v-model="model.address.state" :class="{'error':!(model.address.state)}"></country-states>
                                 </el-col>
                                 <el-col :sm="12" v-if="$auth.user().company.show_zip">
                                     <el-input :disabled="!!(model.address.id)" placeholder="Zip"
-                                              v-model="model.address.zip"></el-input>
+                                              v-model="model.address.zip" :class="{'error':!(model.address.zip)}"></el-input>
                                 </el-col>
 
                             </el-row>
@@ -121,6 +127,9 @@
                     address: [
                         {
                             validator: (rule, value, callback) => {
+                               if (!value.phone) {
+                                    return callback(new Error("Phone is required"))
+                                }
 
                                 if (!value.street) {
                                     return callback(new Error("Street is required"))
@@ -130,13 +139,14 @@
                                     return callback(new Error('City is required'))
                                 }
 
+                                if(!value.state) {
+                                    return callback(new Error('State is required'))
+                                }
+
                                 if (this.$auth.user().company.show_zip && !value.zip) {
                                     return callback(new Error("Zip code is required"))
                                 }
 
-                                if (!value.phone) {
-                                    return callback(new Error("Phone is required"))
-                                }
 
 
 
@@ -255,7 +265,7 @@
                         //this.model.coordinates = coordinates;
                         //this.model.address.coordinates = {lat: this.model.coordinates[1], lng: this.model.coordinates[0]};
                         this.model.address.full_address = this.model.address.street + " " + this.model.address.city + " " + this.model.address.state + " " + this.model.address.zip;
-
+                        
                         this.$emit("on-validate", valid, this.model);
                         resolve(valid);
                     });
@@ -417,3 +427,20 @@
         }
     };
 </script>
+<style lang="scss">
+    .contact-form{
+        .el-form-item.is-error .el-input__inner{
+            border-color: #dcdfe6;
+        }
+       .el-form-item.is-error .el-input.error .el-input__inner,  .el-form.el-form--label-top.error input.el-input__inner {
+             border-color: #f56c6c!important;
+       }
+    //    .el-form.el-form--label-top.error {
+    //        input.el-input__inner {
+    //             border-color: #f56c6c!important;
+    //        }
+    //    }
+    }
+    .customer-form {
+    }
+</style>

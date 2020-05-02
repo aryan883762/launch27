@@ -152,6 +152,7 @@ export default {
             service_date: model.service_date,
             frequency_options: (model.frequency) ? (model.frequency) : false,
             frequencyId: (model.frequency) ? model.frequency.id : '',
+            customer_notes: model.customer_notes,
             staff_notes: model.staff_notes,
             staff_notes_access: model.staff_notes_access,
             duration: model.duration,

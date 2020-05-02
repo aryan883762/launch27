@@ -3,7 +3,7 @@
         <el-row>
             <el-col :xs="24" :sm="24" :md="24">
                 <h3>Top {{ length }} Extras Sold</h3>
-                <p class="result-count">{{ $currency }}{{ extras_total.toFixed(2) }}</p>
+                <p class="result-count">{{ extras_total}}</p>
             </el-col>
         </el-row>
         <el-row>
@@ -20,7 +20,7 @@
     export default {
         props: {
             bookings: {
-                type: Array,
+                type: Object,
                 required: true
             },
             loading:{
@@ -31,8 +31,8 @@
         computed: {
             extras_total() {
                 let total = 0;
-                for(let i=0;i<this.bookings.length;i++){
-                    total += this.bookings[i].charge.total_after_tax
+                for(let i=0;i<this.extrasData.length;i++){
+                    total += this.extrasData[i].quantity
                 }
                 return total;
             }
@@ -48,6 +48,7 @@
         data() {
             return {
                 graphData: [],
+                extrasData:[],
                 length: 0,
                 include: ['booking'],
                 themeOption: {
@@ -60,39 +61,36 @@
         },
         methods: {
             setDataSet() {
-                return;
-                let dataSet = [];
-                if(this.bookings){
-                    for(let i=0;i<this.bookings.length;i++){
-                        
-                        let booking = this.bookings[i];
-                        let charge = booking.charge;
-                        if(charge && charge.total_after_tax){
-                            let key = "None";
-                            let label = "None";
-                            if (booking.payment_type) {
-                                key = booking.payment_type;
-                                label = booking.payment_type;
-                                label = label[0].toUpperCase() + label.substring(1)  + "(" + this.$currency +")";
-                            }
-                            let index = dataSet.findIndex((gd) => gd.key === key);
-                            if (index !== -1) {
-                                dataSet[index].data += charge.total_after_tax;
-                            } else {
-                                dataSet.push({
-                                    key: key,
-                                    label: label,
-                                    data: charge.total_after_tax
-                                });
-                            }
-                        }
+                if(this.bookings && this.bookings.results){
+                    for(let i=0;i<this.bookings.results.length;i++){
+                        if(!this.bookings.results[i].extras)break;
+
+                        this.bookings.results[i].extras.forEach(element => {
+                            element.forEach(extra =>{
+                                if(extra.name){
+                                    let index = this.extrasData.findIndex((ed) => ed.name === extra.name);
+                                    if(index !== -1) {
+                                        this.extrasData[index].quantity += extra.quantity;
+                                    }else{
+                                        this.extrasData.push(extra);
+                                    }
+                                }
+                            })
+                        });
+                    }
+                    this.extrasData.sort((a,b)=>b.quantity-a.quantity)
+                    if(this.extrasData.length>5){
+                        this.length = 5;
+                        //TODO: remove the remaining extras
+                    }else{
+                        this.length = this.extrasData.length;
                     }
                     this.graphData = {
-                        labels: dataSet.map((gd) => gd.label),
+                        labels: this.extrasData.map((gd) => gd.name),
                         datasets: [
                             {
                                 label: "Sales Booking Extras",
-                                data: dataSet.map((gd) => gd.data.toFixed(2)),
+                                data: this.extrasData.map((gd) => gd.quantity),
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.9)',
                                     'rgba(54, 162, 235, 0.9)',

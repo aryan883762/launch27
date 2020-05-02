@@ -263,7 +263,7 @@
                   <div class="details-item" v-if="company.subscription.plan_id === 'free'">
                     <div class="details-item-title">Trial Days Left</div>
                     <div class="details-item-body">
-                      {{ trial_days_left }} Days <span v-if="trial_days_left > 0">({{ trial_days_expire }})</span>
+                      {{ trial_days_left }} Days <span>({{ trial_days_expire }})</span>
                     </div>
                   </div>
                 </el-col>
@@ -347,7 +347,7 @@
         <el-form label-position="top" :model="trial_end_form"  ref="trialEndForm"
           :rules="trial_date_rules" v-loading="trial_edit_loading">
           <el-form-item label="Trial Days Left">
-            {{ trial_days_left }} Days <span v-if="trial_days_left > 0">({{ trial_days_expire }})</span>
+            {{ trial_days_left }} Days <span>({{ trial_days_expire }})</span>
           </el-form-item>
           <el-form-item label="Custom Trial End" prop="custom_trial_end">
             <el-date-picker  
@@ -621,14 +621,19 @@
               this.axios.get('/subscriptions/superadmin_days_left',
                       {
                           params: {
-                              companyId: this.$route.params.id
+                              companyId: this.$route.params.id,
+                              negative: true
                           }
                       })
                   .then(res => {
-                      this.trial_days_left = res.data
-                      this.trial_days_expire = this.$moment().add(this.trial_days_left, 'days')
+                      if (res.data > 0){
+                        this.trial_days_left = res.data
+                      } else {
+                        this.trial_days_left = 0  
+                      }
+                      this.trial_days_expire = this.$moment().add(res.data, 'days')
                         .startOf('day').format(this.$date_format)
-                      this.trial_end_form.custom_trial_end = this.$moment().add(this.trial_days_left, 'days').utc().startOf("day")
+                      this.trial_end_form.custom_trial_end = this.$moment().add(res.data, 'days').utc().startOf("day")
                   })
                   .catch((err) => {
                   })

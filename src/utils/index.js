@@ -5,6 +5,7 @@ import events from './events'
 import endpoints from './endpoints'
 import smooth_scroll from './smooth_scroll'
 import moment from 'moment'
+import company_theme from './company_theme'
 import Vue from "vue";
 
 export default {
@@ -28,6 +29,8 @@ export default {
         Vue.prototype.$$moment = moment
 
         Vue.prototype.$storage = window.localStorage
+
+        Vue.prototype.$$setTheme = company_theme
 
         Vue.prototype.$format_address_components = (address_components) => {
 
@@ -54,8 +57,6 @@ export default {
             return address
 
         }
-
-
 
     }
 }

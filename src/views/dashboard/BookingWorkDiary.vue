@@ -43,7 +43,7 @@
             <el-col>
 
                 <el-row>
-                    <el-col :md="12" :sm="12" class="track-progress">
+                    <el-col :md="isValidCoordinates() ? 12 : 24" :sm="isValidCoordinates() ? 12 : 24" class="track-progress">
                         <div class="actions-box">
                             <el-tooltip placement="top" effect="dark">
                                 <div slot="content">
@@ -141,7 +141,7 @@
                         </el-row>
                     </el-col>
 
-                    <el-col :md="12" :sm="12" class="">
+                    <el-col :md="12" :sm="12" class="" v-show="isValidCoordinates()">
                         <el-row>
                             <el-card :body-class="{padding: '0px'}" shadow="always" class="progress-map">
                                 <MglMap :access-token="getMapBoxAccessToken()" :center="getBookingCoordinates()"
@@ -636,15 +636,16 @@
 
                 return "Pending";
             },
-
+            isValidCoordinates() {
+                let coordinates = this.getBookingCoordinates();
+                return (coordinates[0] !== 0 || coordinates[1] !== 0);
+            },
             getBookingCoordinates() {
                 if (this.selectedBooking && this.selectedBooking.address && this.selectedBooking.address.coordinates && this.selectedBooking.address.coordinates.lat){
                     return [this.selectedBooking.address.coordinates.lng, this.selectedBooking.address.coordinates.lat];
-                }else {
-
                 }
 
-                return [0, 0];
+                return [0,0];
             },
             getMapBoxAccessToken() {
                 return process.env.VUE_APP_MAPBOX_TOKEN;

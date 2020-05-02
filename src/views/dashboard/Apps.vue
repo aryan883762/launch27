@@ -16,13 +16,18 @@
                     </div>
                     <el-divider></el-divider>
                     <div class="el-card__footer">
-                        <el-button v-if="$can('manage', app.plan_key)" type="info" icon="el-icon-preview" round size="mini"
-                                   @click="$router.push({ name: plan_key_routes[app.plan_key] })">View App</el-button>
-                        <el-button v-else type="primary" round size="mini" @click="showCardModal(app)">Purchase App</el-button>
-                        <el-button v-if=" false && $can('manage', app.plan_key)" type="danger" icon="el-icon-preview" round size="mini"
-                                   @click="cancelApp(app)" :disabled="checkCancelled(app)"> {{checkCancelled(app) ? "Cancel Pending": "Cancel App"}}
-                        </el-button>
-                        <label class="app-price">{{"$"+app.price }}</label>
+                        <el-button v-if="app.CompanyApplication && !app.CompanyApplication.cancelled" type="info" icon="el-icon-preview" round size="mini"
+                                   @click="$router.push({ name: plan_key_routes[app.plan_key] })">View</el-button>
+                        <a type="button" v-if="app.CompanyApplication && !app.CompanyApplication.cancelled" class="last el-button--mini deactivate-btn" :class="{'disabled':checkCancelled(app)}"  @click="appDialog(app,'cancel_dialog')">
+                           <span>
+                            Deactivate App</span>
+                        </a>           
+                        <el-button v-else-if="$can('manage',app.plan_key.replace('plan','purchase')) || (app.CompanyApplication && app.CompanyApplication.cancelled)" type="primary" round size="mini"
+                                   @click="appDialog(app,'activate_dialog')">Activate</el-button>
+                        <template v-else>
+                            <el-button type="primary" round size="mini" @click="appDialog(app,'purchase_dialog')">Purchase</el-button>
+                            <label class="app-price">{{"$"+app.price }}</label>
+                        </template>
                     </div>
                     <full-steam-pay-checkout
                         :account-id="$auth.user().id"
@@ -44,6 +49,24 @@
             <no-data v-if="system_apps.length === 0"></no-data>
 
         </el-row>
+        <el-dialog :visible.sync="showDialog"  :append-to-body="true" class="app-modal-popup">
+            <div v-if="dialog.appActivation || dialog.appDeActivation" class="app-model-popup-body">
+                <el-avatar :src="require(`@/assets/svgs/apps/${selectedApp.key}.svg`)"
+                        shape="square" 
+                        :size="64" 
+                        style="float:left; margin-right: 10px;background:white;"
+                        class="dialog-app-icon"></el-avatar>
+                <h2 :class="dialog.appActivation?'activate':'deactivate'">{{ dialog.title }}</h2> 
+                <p>{{ dialog.subTitle }}</p>      
+                <el-button v-if="dialog.click === 'purchase_dialog'" type="primary" round size="mini" @click="showCardModal">Purchase App</el-button>
+                <el-button v-if="dialog.click === 'activate_dialog'" type="primary" round size="mini" @click="activateApp">Activate App</el-button>
+                <el-button v-if="dialog.click === 'cancel_dialog'" type="danger" round size="mini" @click="cancelApp">Remove App</el-button>    
+                <div v-for="text in dialog.texts" :key="text" class="dialog-text">
+                    <span>{{ text }}<br/></span>
+                </div>
+                <span class="dialog-footer-text">{{ dialog.footerText }}</span>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -69,8 +92,10 @@
                 system_apps: [],
                 fspayInstance: null,
                 selectedApp: {price: 0},
-                loading: false
-
+                loading: false,
+                showDialog: false,
+                dialog: {},
+                summary: {}
             };
         },
 
@@ -80,42 +105,99 @@
 
         methods: {
             fetchSystemApplications() {
-                this.axios.get('/system_applications/list', {
-                params: {
-                    status: "active"
-                    }
-                })
+                this.axios.get('/company_applications/list')
                 .then(response => {
                     if (response.data) {
                         this.system_apps = response.data;
                     }
                 })
                 .catch(err => {
-
+                    this.$helpers.errorHandle(err);
                 });
             },
-            showCardModal(app){
-                this.selectedApp = app;
+            showCardModal(){
+                this.showSummary = false
                 if (this.fsPayInstance) {
                     this.fsPayInstance.showModal();
                 }
             },
+            async appDialog(app,type){
+                this.selectedApp = app;
+                this.dialog.appActivation = false;
+                this.dialog.appDeActivation = false;
+                this.dialog.subTitle = app.description;
+                this.dialog.footerText = `By proceeding you are agreeing to Launch27's Terms of Service.`;  
+
+                if(type === 'purchase_dialog'){
+                    await this.summaryApp(app, 'app_activation')
+                    this.dialog.appActivation = true;
+                    let nextBillingDate = this.$moment().endOf('month').add(1,'days').format(this.$date_format);
+                    let pro_rate = this.$helpers.formatAmount(this.summary.price);
+                    let app_price = this.$helpers.formatAmount(app.price);
+                    let extra = this.$auth.user().company.subscription.recurring === 'monthly'?'with your subscription fee':'';
+                    this.dialog.title = `You are about to purchase ${app.name}`;
+                    this.dialog.texts = [`You will be charged $${pro_rate} immediately upon activation and 
+                        $${app_price} next month on ${nextBillingDate} ${extra}. Charges will occur monthly. Deactivate to remove the app 
+                        from your account and to stop billing.`];  
+                }
+                if(type === 'activate_dialog'){
+                    this.dialog.appActivation = true;
+                    this.dialog.title = `You are about to activate ${app.name}`;
+                    this.dialog.texts = [`This app is already purchased for the current month, proceed to
+                     setup and start using.`];  
+                }
+                if(type === 'cancel_dialog'){
+                    this.dialog.appDeActivation = true;
+                    this.dialog.title = `Your are about to deactivate ${app.name}`;
+                    this.dialog.texts = [`By removing this app you will no longer have access to its date or any
+                        features associated with the app, You will also no longer be billed for usages.
+                        You can reactive at any time to begin using again.`];   
+                }
+                this.dialog.click = type;
+                this.showDialog = true;
+            },
+            async summaryApp(app, type){
+                try{
+                    this.loading = true;
+                    let result = await this.axios.get('/company_applications/summary', {
+                        params: {
+                            appKey: app.key
+                        }
+                    })
+                    if(result && result.data)
+                        this.summary = result.data;
+                }catch(err){
+                    this.$helpers.errorHandle(err);
+                }
+                this.loading = false;
+            },
+            activateApp(){
+                this.showDialog = false;
+                this.loading = true;
+                this.axios.post('company_applications/activate',{
+                    appKey: this.selectedApp.key
+                })
+                .then(response => {
+                    this.reloadAuth(" successfully activated");
+                })
+                .catch(err => {
+                    this.$helpers.errorHandle(err);
+                })
+                .finally(() => {
+                    this.loading = false;
+                })
+            },
             buyApp(cardInfo){
                 this.loading = true;
+                this.showDialog = false;
                 this.axios.post('/company_applications/buy', {
-                    appId: this.selectedApp.id,
+                    appKey: this.selectedApp.key,
                     user: this.$auth.user(),
                     cardInfo: cardInfo
                 })
                 .then(response => {
                     if(response.data){
-                        this.$auth.fetch({
-                            params: {},
-                            success: () => {
-                                this.$helpers.successHandle(this.selectedApp.name+" successfully purchased");
-                                this.fetchSystemApplications();
-                            }
-                        });
+                        this.reloadAuth(" successfully purchased");
                     }
                 })
                 .catch(err => {
@@ -125,23 +207,30 @@
                     this.loading = false;
                 })
             },
-            cancelApp(app){
+            cancelApp(){
+                this.showDialog = false;
+                this.loading = true;
                 this.axios.post('/company_applications/cancel', {
-                    appKey: app.key
+                    appKey: this.selectedApp.key
                 })
                 .then(response => {
                     if(response.data){
-                        this.$auth.fetch({
-                            params: {},
-                            success: () => {
-                                this.$helpers.successHandle(app.name+ " cancellation pending");
-                                this.fetchSystemApplications();
-                            }
-                        });
+                        this.reloadAuth(" cancelled");
+                        this.loading = false;
                     }
                 })
                 .catch(err => {
                     this.$helpers.errorHandle(err);
+                    this.loading = false;
+                });
+            },
+            reloadAuth(text){
+                this.$auth.fetch({
+                    params: {},
+                    success: () => {
+                        this.$helpers.successHandle(this.selectedApp.name+text);
+                        this.fetchSystemApplications();
+                    }
                 });
             },
             checkCancelled(sys_app){
@@ -204,7 +293,60 @@
                 float: right;
                 color: #fd6e67;
             }
+            .deactivate-btn {
+                float: right;
+                &.disabled {
+                cursor: not-allowed;
+                pointer-events: none;
+                  span {
+                      border-bottom: 1px solid #cccccd87; 
+                      color: #afb0b2;
+                  }
+                }
+                span {
+                    border-bottom: 1px solid rgba(144, 147, 153, 0.44);
+                    color: rgb(144, 147, 153);
+                }
+            }
         }
-
+    }
+    .app-modal-popup {
+        .app-model-popup-body {
+          padding: 0px 42px 10px 42px;
+          text-align: center;
+          button {
+            margin: 10px 0 0 0;
+            padding: 12px 30px;
+            font-size: 15px;
+          }
+          h2{
+            word-break: break-word;  
+            &.activate {
+               color: #1fb6ff;
+            }
+            &.deactivate {
+              color: #606266;
+            }
+          }
+          p {
+              font-weight: 500;
+          }
+          span.dialog-footer-text {
+              font-style: italic;
+          }
+          div.dialog-text {
+            word-break: break-word;
+            margin: 25px 0px 25px 0px;
+            span {
+              font-style: italic;
+            }
+          }
+        }
+        .dialog-app-icon {
+            margin-right: 0 !important;
+            float: unset !important;
+            height: 100px !important;
+            width: 100px !important;
+        }
     }
 </style>

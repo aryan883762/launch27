@@ -499,7 +499,8 @@
                                     'charge',
                                     "workdiary",
                                     {"assigned_checklists": "tasks"},
-                                    {"team_assignments": "team"}
+                                    {"team_assignments": "team"},
+                                    "creator"
                                 ]
                             }
                         }

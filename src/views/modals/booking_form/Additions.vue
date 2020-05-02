@@ -112,20 +112,11 @@
             };
         },
         watch: {
-            "model.tip"(val) {
-                this.validate();
-            },
-            "model.discount_code"(val) {
-                this.validate();
-            },
-            "model.referral_code"(val) {
-                this.validate()
-            },
-            "model.adjustment"(val) {
-                this.validate();
-            },
-            "model.duration"(val) {
-                this.validate();
+            model: {
+                deep: true,
+                handler() {
+                    this.validate();
+                }
             },
             duration(val) {
                 this.model.duration = parseInt(val);

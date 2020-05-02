@@ -11,7 +11,9 @@
                 <h3>Choose date of service</h3>
             </div>
         </el-button>
-
+        <div class="service-date-error" :class="{'el-form-item__error el-form-item is-error':!isValid}">
+            Date & Time required
+        </div>
         <el-dialog custom-class="date-section-step booking-teams-assignment" width="60%" top="0vh" append-to-body
                    modal-append-to-body
                    :modal="true" :visible.sync="dateDialog">
@@ -143,6 +145,7 @@
                 available_spots: [],
                 mapStyle: "mapbox://styles/mapbox/streets-v10",
                 loading: false,
+                isValid: true,
                 model: {
                     calendar_date: "",
                     service_date: "",
@@ -236,8 +239,15 @@
             validate() {
                 return new Promise((resolve, reject) => {
                     this.$refs.form.validate(valid => {
-                        this.$emit("on-validate", valid, this.model);
-                        resolve(valid);
+                        if(this.model.service_date){
+                            this.isValid = true;
+                            this.$emit("on-validate", true, this.model);
+                            resolve(true); 
+                        }else{
+                            this.isValid = false;
+                            this.$emit("on-validate", false, this.model);
+                            resolve(false);    
+                        }
                     });
                 });
             },
@@ -418,7 +428,13 @@
         .el-divider {
             margin: 5px 0px !important;
         }
-
+        .service-date-error {
+            display: none;
+            position: relative!important;
+        }
+        .service-date-error.el-form-item__error {
+            display: block;
+        }
         .current-date-time {
             font-weight: 500;
             font-size: 15px;

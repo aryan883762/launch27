@@ -11,7 +11,7 @@
         background: white;
 
         height: 68px !important;
-        width: calc(100vw - 0px);
+        width: 100%;
         max-width: 100%;
         min-width: 792px;
         padding-left: 0px;
@@ -55,6 +55,8 @@
             justify-content: flex-end;
             flex-direction: row;
             display: flex;
+            position: absolute; 
+            right: 0px;
         }
 
         .profile-avatar {
@@ -151,5 +153,13 @@
             }
         }
 
+    }
+    img.header-logo {
+        height: 35px;
+        width: 100px;
+        vertical-align: middle;
+    }
+    .team-page, .customer-page {
+        background: #f2f2f2;
     }
 }

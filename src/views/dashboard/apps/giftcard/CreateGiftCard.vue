@@ -2,7 +2,7 @@
   <el-card shadow="never" v-loading="loading">
     <el-row v-if="$can('manage', 'plan_gift_card')">
       <el-col v-if="setupDone">
-        <form-gift-card v-if="!loading" :gift-card-type="giftCardType" :gift-card="giftCard" :multi-gift-card="true" :company="company" />
+        <form-gift-card v-if="!loading" :gift-card-type="giftCardType" :gift-card="giftCard" :multi-gift-card="true" :company.sync="company" />
       </el-col>
       <el-col v-else>
         <template v-if="$can('manage', 'role_admin')">
@@ -41,9 +41,7 @@ export default {
 
   created() {
     this.loadGiftCardType();
-    if (this.$can("manage", "role_anonymous")) {
-      this.loadCompany();
-    }
+    this.loadCompany();
   },
 
   methods: {
@@ -76,7 +74,11 @@ export default {
     },
 
     loadCompany() {
-      this.axios.get("/companies/" + this.$company.id).then(res => {
+      let url = "/companies/current";
+      if (this.$can("manage", "role_anonymous")) {
+        url = "/companies/" + this.$company.id;
+      }
+      this.axios.get(url).then(res => {
         this.company = res.data;
       });
     }

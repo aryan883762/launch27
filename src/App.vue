@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <main>
+        <main v-if="!turn_off">
             <fade-transition :duration="250" mode="out-in" origin="center">
                 <template v-if="$subdomain.error">
                     <error-404/>
@@ -11,6 +11,17 @@
                 </template>
             </fade-transition>
         </main>
+        <h2 v-if="turn_off" style="margin-top: 100px; text-align: center">
+            Thank you for providing feedback on your First Look.
+            <br/> <br/>
+            You helped us identify critical areas of need that we want to address.
+
+            <br/> <br/>
+            So, we are hard at work incorporating that feedback to make v2 even better than before. <br/> <br/>
+            The First Look environment has been shut down in the meantime to make those changes.
+            <br/> <br/>
+            Feel free to reach out to support@launch27.com with any questions!
+        </h2>
     </div>
 </template>
 
@@ -29,13 +40,12 @@
                 refreshing: false,
                 registration: null,
                 updateExists: false,
-                testing: true
+                testing: true,
+                turn_off: false
             }
         },
 
-        watch: {
-
-        },
+        watch: {},
 
         created() {
             // Listen for swUpdated event and display refresh snackbar as required.
@@ -49,6 +59,9 @@
                 this.refreshing = true;
                 window.location.reload();
             });
+
+            this.turn_off = (process.env.VUE_APP_TURN_OFF && process.env.NODE_ENV === 'production')
+
         },
 
         methods: {
@@ -99,14 +112,20 @@
         mounted(){
             setInterval(()=>{
               if(document.querySelector('input[placeholder="Start date"]')) {
-                document.querySelector('input[placeholder="Start date"]').addEventListener('click', function() {
-                    $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
-                    $('.el-date-range-picker__content.is-right').attr('style', 'display: none !important');
-                });
-                document.querySelector('input[placeholder="End date"]').addEventListener('click', function() {
-                    $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
-                    $('.el-date-range-picker__content.is-left').attr('style', 'display: none !important');
-                });
+                    if(window.matchMedia("(max-width: 767px)").matches) {
+                        // The viewport is less than 768 pixels wide
+                        document.querySelector('input[placeholder="Start date"]').addEventListener('click', function() {
+                            $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
+                            $('.el-date-range-picker__content.is-right').attr('style', 'display: none !important');
+                        });
+                        document.querySelector('input[placeholder="End date"]').addEventListener('click', function() {
+                            $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
+                            $('.el-date-range-picker__content.is-left').attr('style', 'display: none !important');
+                        });
+                    }else {
+                            $('.el-date-range-picker__content.is-right').attr('style', 'display: block !important');
+                            $('.el-date-range-picker__content.is-left').attr('style', 'display: block !important');
+                    }
               }
             },100)
       

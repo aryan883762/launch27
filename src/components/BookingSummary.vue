@@ -26,18 +26,27 @@
                         </el-col>
 
                         <el-col :sm="24" v-if="bookingModel.service_date">
-                            <strong>Date & Time</strong>
+                            <strong>Date & Time</strong><br />
                             <p class="" style="margin-left:10px;" v-if="!bookingModel.forecasted">
                                 {{$moment(bookingModel.service_date).format($date_format + ' ' + $time_format) }}</p>
                             <p style="margin-left:10px;" v-if="bookingModel.forecasted">
                                 <strong style="color:red;">{{$moment(bookingModel.forecasted_service_date).format($date_format + ' ' + $time_format) }}</strong></p>
                         </el-col>
 
-
                         <el-col :sm="24" v-if="bookingModel.service_date">
                             <strong>Duration</strong>
                             <el-tag style="margin-left: 10px" size="small" type="danger" effect="dark">{{bookingModel.duration | duration }}
                             </el-tag>
+                        </el-col>
+
+                        <el-col :sm="24" v-if="bookingModel.creator">
+                            <strong>Created By</strong><br />
+                            <p style="margin-left:10px;">
+                                {{ bookingModel.creator.fullname }} ({{ bookingModel.creator.roleName }})
+                            </p>
+                            <p style="margin-left:10px;">
+                                {{ $moment(bookingModel.created_at).format($date_format + ' ' + $time_format) }}
+                            </p>
                         </el-col>
 
                     </el-card>

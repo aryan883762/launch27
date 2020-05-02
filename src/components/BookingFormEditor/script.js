@@ -71,6 +71,12 @@ export default {
                 }
             },
             generateCodeModal: false,
+            termOfServiceDialogVisible: false,
+            terms_of_service: {
+                business_name: '',
+                enabled: false,
+                content: ''
+            },
             formSubmitted: false,
             publicPath: process.env.BASE_URL
         };
@@ -159,7 +165,7 @@ export default {
     computed: {
         baseStyles() {
             var out = {};
-            out['--l27-company-main-color'] = this.$store.state.bookingFormEditor.company.main_color || '#ff5a60';
+            out['--l27-company-main-color'] = this.$store.state.bookingFormEditor.company.button_color || '#ff5a60';
             return out;
         },
         wrapperClasses() {
@@ -684,57 +690,25 @@ export default {
             }
 
             this.validateForm();
-
+            this.terms_of_service.business_name = this.$store.state.bookingFormEditor.company.business_name;
+            this.terms_of_service.enabled = this.$store.state.bookingFormEditor.company.settings.booking.terms_of_service.enabled;
+            this.terms_of_service.content = this.$store.state.bookingFormEditor.company.settings.booking.terms_of_service.content;
             if (this.validationPassed) {
-                this.$helpers.startLoading('bookingForm:root');
-
-                let url
-                if (this.isQuoteForm) {
-                    url = '/companies/current/quotes'
-                } else {
-                    url = '/companies/current/bookings'
+                if(this.terms_of_service.enabled) {
+                  this.booking();
+                }else {
+                    this.termOfServiceDialogVisible = true;
                 }
-
-                this.axios({
-                    url: url,
-                    method: 'POST',
-                    data: this.isQuoteForm ? this.getQuoteData() : this.getBookingData(),
-                })
-                    .then(response => {
-                        if (response.data) {
-                            this.$message({
-                                showClose: true,
-                                message: this.isQuoteForm ? 'You quote was successfully submitted' : 'Your booking was placed successfully',
-                                type: 'success'
-                            });
-                            // clear the form so user cannot resubmit
-                            this.formSubmitted = true;
-
-                            //send google analytics data if enabled
-                            if (this.$can('manage', 'google_analytics') && this.$trackingId) {
-                                this.$gtag.pageview({
-                                    page_path: '/virtual-pageview/booking/widget/success.htm',
-                                    page_title: "Booking - Complete (Widget)"
-                                })
-
-                                this.$gtag.event('Complete', {
-                                    'event_category': 'Booking',
-                                    'event_label': 'Widget'
-                                })
-                            }
-
-                            setTimeout(function () { // clear form after submission
-                                location.reload();
-                            }, 2000);
-                        }
-                    })
-                    .catch(e => {
-                    })
-                    .finally(_ => {
-                        this.$helpers.stopLoading('bookingForm:root');
-                    });
             } else {
-                this.$helpers.errorHandle('Form has errors. Kindly address all the errors and try again');
+                //scroll to error field
+                setTimeout(()=>{
+                 let  elem =  document.querySelector('.has-errors') || document.querySelector('.field-errors')
+                 if(elem !== null){
+                 elem.scrollIntoView({behavior: "smooth", block: "center"});
+                 }
+                 this.$helpers.errorHandle('Form has errors. Kindly address all the errors and try again');
+                },200);
+                
             }
         },
         getQuoteData() {
@@ -1026,7 +1000,7 @@ export default {
 
             if (component.formId == 'serviceIds') {
                 const serviceIds = this.form['serviceIds'];
-                if (serviceIds.length) {
+                if (serviceIds.length && serviceIds.length>0) {
                     const selectedServices = this.$store.state.bookingFormEditor.categoryServices.filter(o => serviceIds.indexOf(o.id) !== -1);
                     selectedServices.forEach(service => {
                         if (service.hourly) {
@@ -1044,6 +1018,8 @@ export default {
                             });
                         }
                     });
+                }else{
+                    this.setFormComponentValidationError(componentId, 'Select a service');
                 }
             }
         },
@@ -1407,6 +1383,62 @@ export default {
                 price_str += (":" + quantity);
             }
             return price_str;
+        },
+        booking() {
+            this.$helpers.startLoading('bookingForm:root');
+            let url
+            if (this.isQuoteForm) {
+                url = '/companies/current/quotes'
+            } else {
+                url = '/companies/current/bookings'
+            }
+            this.axios({
+                url: url,
+                method: 'POST',
+                data: this.isQuoteForm ? this.getQuoteData() : this.getBookingData(),
+            })
+            .then(response => {
+                if (response.data) {
+                    this.$message({
+                        showClose: true,
+                        message: this.isQuoteForm ? 'You quote was successfully submitted' : 'Your booking was placed successfully',
+                        type: 'success'
+                    });
+                    // clear the form so user cannot resubmit
+                    this.formSubmitted = true;
+
+                    //send google analytics data if enabled
+                    if (this.$can('manage', 'google_analytics') && this.$trackingId) {
+                        this.$gtag.pageview({
+                            page_path: '/virtual-pageview/booking/widget/success.htm',
+                            page_title: "Booking - Complete (Widget)"
+                        })
+
+                        this.$gtag.event('Complete', {
+                            'event_category': 'Booking',
+                            'event_label': 'Widget'
+                        })
+                    }
+
+                    setTimeout(function () { // clear form after submission
+                        location.reload();
+                    }, 2000);
+                }
+            })
+            .catch(e => {
+            })
+            .finally(_ => {
+                this.$helpers.stopLoading('bookingForm:root');
+            });
+        },
+        iAgreed() {
+            this.termOfServiceDialogVisible = false;
+          this.booking();
+        },
+        closeTermsDialog() {
+            $('.el-loading-mask').last().hide();
+            this.termOfServiceDialogVisible = false;
+
         }
     },
 };

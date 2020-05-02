@@ -218,7 +218,7 @@
     }
 
     .customer-dashboard {
-        background:none;
+        background:#fff!important;
 
         .td-one-line-card {
             .el-card__body {

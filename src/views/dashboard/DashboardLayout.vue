@@ -3,7 +3,7 @@
         <el-container class="main-app-holder">
             <el-card class="header">
                 <el-row class="flex-row-center full-height">
-                    <el-col :md="12" :sm="12" :xs="24">
+                    <div>
                         <svg height="24px" width="170px" xmlns="http://www.w3.org/2000/svg"
                              xmlns:xlink="http://www.w3.org/1999/xlink">
                             <image height="24px" width="100px" x="0px"
@@ -13,9 +13,9 @@
 
                         <GlobalSearch/>
 
-                    </el-col>
+                    </div>
 
-                    <el-col :md="12" :sm="12" :xs="24" class="avatar-holder hidden-sm-and-down">
+                    <div class="avatar-holder">
                         <ClockInOutMenu/>
 
                         <el-button @click="$router.push({ name: 'dashboard_booking_new' })" round size="mini"
@@ -72,7 +72,7 @@
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                    </el-col>
+                    </div>
                 </el-row>
             </el-card>
 
@@ -132,6 +132,7 @@
     import MigrationBanner from "../../components/MigrationBanner";
     import TrialUpdate from "../../components/TrialUpdate";
 
+
     export default {
         components: {
             TrialUpdate,
@@ -178,7 +179,7 @@
             }
 
             this.breadcrumbs = this.$route.meta.breadcrumbs;
-
+            this.$$setTheme.setTheme(this.$auth.user().company.main_color, '#1fb6ff')
             if (this.$auth.user().company) {
 
 
@@ -224,8 +225,6 @@
                 name: "dashboard_settings_account",
                 query: {tab: "plan"}
             }]);
-
-
         },
 
         watch: {

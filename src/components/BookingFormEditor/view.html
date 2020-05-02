@@ -157,4 +157,22 @@
             <el-button @click="generateCodeModal = false">Close</el-button>
         </span>
     </el-dialog>
+
+    <el-dialog :visible.sync="termOfServiceDialogVisible" :append-to-body="true" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" class="terms-service-dialog" width="43%">
+        <div class="terms-main">
+            <div class="header">
+                <h1>Privacy and Terms</h1>
+                <h4>To book an appointment, please read and agree to our Terms & Conditions.</h4>
+                <span>By choosing "I agreee" below you are agree to <b>{{terms_of_service.business_name}}'s</b> terms of service</span>
+            </div>
+            <div class="terms-content">
+                <div v-html="terms_of_service.content"> 
+                </div>
+            </div>    
+        </div>
+        <span class="dialog-footer" slot="footer">
+            <el-button @click="closeTermsDialog()">CANCEL</el-button>
+            <el-button @click="iAgreed()" type="primary" class="agree">I AGREE</el-button>
+        </span>
+    </el-dialog>
 </div>

@@ -43,9 +43,9 @@
           </el-form-item>
 
           <!-- Forecasted -->
-          <el-form-item label="Forecasted" class="pull-left">
+          <!-- <el-form-item label="Forecasted" class="pull-left">
             <el-checkbox v-model="forecasted" @change="loadData"/>
-          </el-form-item>
+          </el-form-item> -->
           
           <!-- Promotion -->
           <el-form-item label="Only Promotion" class="pull-left">

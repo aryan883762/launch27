@@ -42,7 +42,7 @@
             <el-col :sm="24">
                 <el-row :gutter="20">
                     <el-col :sm="12">
-                        <el-form-item label="Where you heard about uss">
+                        <el-form-item label="Where you heard about us">
                             <marketing-sources v-model="model.referral_source"></marketing-sources>
                         </el-form-item>
                     </el-col>

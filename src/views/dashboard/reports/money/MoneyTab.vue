@@ -31,11 +31,7 @@
                     <span style="color:red;">* This does not include forecasted sales</span>
                 </el-card>
             </el-col>
-            <!-- <el-col :xs="24" :sm="12" :md="12">
-                <el-card style="margin: 20px;">
-                    <total-sales-by-booking-extra :bookings.sync="bookings" :loading.sync="loading"></total-sales-by-booking-extra>
-                </el-card>
-            </el-col> -->
+            
             <!-- <el-col :xs="24" :sm="12" :md="12">
                 <el-card style="margin: 20px;">
                     <total-sales-by-services v-if="money_chart_type === 'totalsalesbyservice'"></total-sales-by-services>
@@ -98,7 +94,7 @@
          components: {
             TotalSales,
             TotalSalesByBookingType,
-            TotalSalesByBookingExtra
+            TotalSalesByBookingExtra,
             // TotalSalesByServices,
             // TotalSalesByTeam,
             // TotalSalesBySource,

@@ -95,8 +95,8 @@ export default {
                 let data =  await this.$root.$aggregate('bookings', this.date_range[0], this.date_range[1], 'date', this.getWhereQuery(false))
                 if(data){this.bookings = data;}
                 this.loading = false;
-                let forecasted_data = await this.$root.$aggregate('bookings', this.date_range[0], this.date_range[1], 'forecast', this.getWhereQuery(true))
-                if(forecasted_data){this.forecasted_bookings = forecasted_data;}
+                //let forecasted_data = await this.$root.$aggregate('bookings', this.date_range[0], this.date_range[1], 'forecast', this.getWhereQuery(true))
+                //if(forecasted_data){this.forecasted_bookings = forecasted_data;}
             }catch(err){
               console.log(err);
             }finally{
