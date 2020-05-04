@@ -101,4 +101,7 @@ export default {
         hasChildren: true,
         styleables: ['padding', 'margin', 'border'],
     },
+    termOfService: {
+        name: 'Term Of Service'
+    },
 }

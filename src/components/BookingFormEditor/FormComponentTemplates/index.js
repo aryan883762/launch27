@@ -18,4 +18,5 @@ export default {
     'booking-form-editor-form-component-template-button': require('@/components/BookingFormEditor/FormComponentTemplates/button/component.vue').default,
     'booking-form-editor-form-component-template-checkbox': require('@/components/BookingFormEditor/FormComponentTemplates/checkbox/component.vue').default,
     'booking-form-editor-form-component-template-radio': require('@/components/BookingFormEditor/FormComponentTemplates/radio/component.vue').default,
+    'booking-form-editor-form-component-template-termofservice': require('@/components/BookingFormEditor/FormComponentTemplates/termOfService/component.vue').default,
 }

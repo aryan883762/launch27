@@ -1200,4 +1200,11 @@ export default {
         class: 'text-right',
         fieldId: 'summary.pricing.next_booking_total',
     },
+    201: {
+        type: 'termOfService',
+        hidable: false,
+        required: true,
+        displayName: 'Terms and condition',
+        formId: 'termsOfService'
+    },
 }
